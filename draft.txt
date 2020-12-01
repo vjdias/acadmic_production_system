@@ -1,0 +1,36 @@
+Modelos>
+	Pessoa:
+		Nome
+		Email
+	Usuario extend Pessoa:
+		Permissão
+		 
+	Colaborador extend Pessoa:
+		Tipo:(alunos de graduação, alunos de mestrado, alunos de doutorado, professores e pesquisadores)
+	
+	Projetos:
+		Titulo
+		Data de inicio
+		Data de terminio
+		Agencia financiadora
+		Valor Financiado
+		Objetivo
+		Descrição
+		Participantes: Colaboradores->(existir 0> Professores)
+		Publicações: Publicação
+	
+	Produção:
+		Colaborador: Colabordor
+		Tipo
+			
+	Publicação:
+		Titulo
+		Autores: Colaboradores
+		Conferencia
+		Ano de Publicação
+		ProjetoAssociado: Projetos
+			
+	Status do Projeto:
+		Projeto: Projetos
+		Status
+		
