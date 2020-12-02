@@ -26,6 +26,10 @@ public class Project {
 		this.publications = publications;
 		this.status = status;
 	}
+
+	public Project(String title) {
+		this.title = title;
+	}
 	
 	public String getTitle() {
 		return title;

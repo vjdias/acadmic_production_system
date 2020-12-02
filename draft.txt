@@ -18,6 +18,7 @@ Modelos>
 		Descrição
 		Participantes: Colaboradores->(existir 0> Professores)
 		Publicações: Publicação
+		Status
 	
 	Produção:
 		Colaborador: Colabordor
@@ -29,8 +30,8 @@ Modelos>
 		Conferencia
 		Ano de Publicação
 		ProjetoAssociado: Projetos
-			
-	Status do Projeto:
-		Projeto: Projetos
-		Status
 		
+Controle>
+	Participação
+		Adicionar pessoas a projetos
+		Adicionar pessoas a
