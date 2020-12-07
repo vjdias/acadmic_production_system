@@ -1,13 +1,12 @@
 package com.aps.model;
 
-public class User extends Person {
+public class User extends Person implements Model {
 
 	private String permission;
 	
 	public User(String name, String email, String permission) {
 		super(name, email);
-		this.permission = permission;
-		
+		this.permission = permission;	
 	}
 
 	public String getPermission() {

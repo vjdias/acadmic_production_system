@@ -3,32 +3,40 @@ package com.aps.model;
 import java.util.ArrayList;
 import java.util.Date;
 
-public class Publication {
+public class Publication implements Model{
+	private int id;
 	private String title;
-	private ArrayList<Collaborator> authors;
+	
+	private ArrayList<Integer> authors_collaborators_fk;
 	private String conference;
 	private Date year;
 	private Project project;
 	
-	public Publication(String title, ArrayList<Collaborator> authors, String conference, Date year, Project project) {
+	public Publication(String title, ArrayList<Integer> authors_collaborators_fk, String conference, Date year, Project project) {
 		this.title = title;
-		this.authors = authors;
+		this.authors_collaborators_fk = authors_collaborators_fk;
 		this.conference = conference;
 		this.year = year;
 		this.project = project;
 	}
 	
+	public int getId() {
+		return id;
+	}
+	public void setId(int id) {
+		this.id = id;
+	}
 	public String getTitle() {
 		return title;
 	}
 	public void setTitle(String title) {
 		this.title = title;
 	}
-	public ArrayList<Collaborator> getAuthors() {
-		return authors;
+	public ArrayList<Integer> getAuthors_fk() {
+		return authors_collaborators_fk;
 	}
-	public void setAuthors(ArrayList<Collaborator> authors) {
-		this.authors = authors;
+	public void setAuthors_fk(ArrayList<Integer> authors) {
+		this.authors_collaborators_fk = authors;
 	}
 	public String getConference() {
 		return conference;
