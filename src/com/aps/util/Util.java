@@ -1,5 +1,11 @@
 package com.aps.util;
 
+import com.aps.controller.Manage;
+import com.aps.controller.ManageProject;
+import com.aps.model.Collaborator;
+import com.aps.model.Participation;
+import com.aps.model.Project;
+
 public class Util {
 	
 	public static String StringCapitalize(String s) {
@@ -54,5 +60,29 @@ public class Util {
 			f = f.toLowerCase();
 		}
 		return f;
+	}
+	
+	public void test() {
+//		Manage<Publication> ManagePublication = new Manage<Publication>(); 
+		Manage<Collaborator> ManageCollaborator = new Manage<Collaborator>();
+		Manage<Participation> ManageParticipation = new Manage<Participation>();
+		ManageProject prjm = new ManageProject(ManageCollaborator, ManageParticipation);
+		
+		Project prj = new Project("Projeto da uiu");
+		prjm.add(prj);
+
+		Project prj1 = new Project("");
+		
+		if (prjm.get("getTitle", "Projeto da uiu").size() > 0) {
+			prj1 = prjm.get("getTitle", "Projeto da uiu").get(0);
+		}
+		
+		System.out.println(prj1.getTitle());
+		
+		Manage<Collaborator> mColl = new Manage<Collaborator>();
+		mColl.add(new Collaborator("Valdir", "inv@gmail.com", "university student"));
+
+		System.out.println(mColl.get("name ", "Valdir").toString());
+		System.out.println(mColl.get("getname", "Valdir").toString());
 	}
 }

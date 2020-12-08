@@ -93,6 +93,37 @@ public class ManageProject extends Manage<Project> {
 		return obj_list.get(id).getStatus();
 	}
 	
+	public String academicReport (Boolean show) {
+		
+		int[] info = {0,0,0,0,0,0};
+		
+		for (Project proj: obj_list) {
+			
+			info[0] += proj.getCollaborators_fk().size();
+			
+			if (proj.getStatus() == "in preparation")
+				info[1] += 1;
+			else if (proj.getStatus() == "in progress")
+				info[2] += 1;
+			else if (proj.getStatus() == "concluded")
+				info[3] += 1;
+			
+		}
+		
+		String report = "Número de colaboradores: "
+					+ "\nNúmero de projetos em elaboração: "
+					+ "\nNúmero de projetos em andamento\n"
+					+ "\nNúmero de projetos concluídos\n"
+					+ "\nNúmero total de projetos\n"
+					+ "\nNúmero de produção acadêmica por tipo de produção";
+			
+				
+		if (show) 
+			System.out.println(report);
+		
+		return report;
+	}
+
 	public Boolean remove(int id_project) {
 		try {			
 			if (obj_list.remove(obj_list.get(id_project))) {
