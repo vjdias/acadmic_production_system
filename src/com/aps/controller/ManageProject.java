@@ -107,8 +107,8 @@ public class ManageProject extends Manage<Project> {
 				info[2] += 1;
 			else if (proj.getStatus() == "concluded")
 				info[3] += 1;
-			
 		}
+		
 		
 		String report = "Número de colaboradores: "
 					+ "\nNúmero de projetos em elaboração: "
