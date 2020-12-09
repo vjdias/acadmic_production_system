@@ -9,6 +9,12 @@ public class Collaborator implements Model {
 	private String academic_degree;
 	private ArrayList<Integer> history_project_participation_fk;
 	private ArrayList<Integer> history_project_production_fk;
+
+	public Collaborator() {
+		history_project_participation_fk = new ArrayList<Integer>();
+		history_project_production_fk = new ArrayList<Integer>();
+
+	}
 	
 	public Collaborator(String name, String email, String academic_degree) {
 		this.name = name;

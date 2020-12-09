@@ -1,6 +1,7 @@
 package com.aps.controller;
 
 import java.util.ArrayList;
+import java.util.Map;
 
 import com.aps.model.Collaborator;
 import com.aps.model.Orientation;
@@ -31,21 +32,51 @@ public class APS {
 	
 	public Boolean add(String ST, Object obj) {
 		try {
-			if (ST.equals("collaborator"))
+			if (ST.toLowerCase().equals("collaborator"))
 				return manageCollaborator.add((Collaborator)obj);
 			
-			else if (ST.equals("orientation"))
+			else if (ST.toLowerCase().equals("orientation"))
 				return manageOrientation.add((Orientation)obj);
 			
-			else if (ST.equals("participation"))
+			else if (ST.toLowerCase().equals("participation"))
 				return manageParticipation.add((Participation)obj);
 			
-			else if (ST.equals("project"))
+			else if (ST.toLowerCase().equals("project"))
 				return manageProject.add((Project)obj);
 			
-			else if (ST.equals("publication"))
+			else if (ST.toLowerCase().equals("publication"))
 				return managePublication.add((Publication)obj);
 		
+		} catch (ClassCastException c) {
+			System.out.println("Erro de cast ao ler o objeto: "+ST);
+		}
+	
+		return false;
+	}
+	
+	public Boolean add(String ST, Map<String, String> fields_and_values) {
+		try {
+			if (ST.toLowerCase().equals("collaborator")) {
+				Collaborator coll = new Collaborator();
+				return manageCollaborator.add(fields_and_values,coll);
+				
+			} else if (ST.toLowerCase().equals("orientation")) {
+				Orientation orien = new Orientation();
+				return manageOrientation.add(fields_and_values, orien);
+			
+			} else if (ST.toLowerCase().equals("participation")) {
+				Participation part = new Participation();
+				return manageParticipation.add(fields_and_values, part);
+			
+			} else if (ST.toLowerCase().equals("project")) {
+				Project proj = new Project();
+				return manageProject.add(fields_and_values, proj);
+			
+			} else if (ST.toLowerCase().equals("publication")) {
+				Publication pub = new Publication();
+				return managePublication.add(fields_and_values, pub);
+			}
+			
 		} catch (ClassCastException c) {
 			System.out.println("Erro de cast ao ler o objeto: "+ST);
 		}
@@ -62,63 +93,102 @@ public class APS {
 	}
 	
 	
-	public ArrayList<String>  listFields(String ST, Boolean show) {
-		if (ST.equals("collaborator"))
-			return manageCollaborator.listFields(show);
-		
-		else if (ST.equals("orientation"))
-			return manageOrientation.listFields(show);
-		
-		else if (ST.equals("participation"))
-			return manageParticipation.listFields(show);
-		
-		else if (ST.equals("project"))
-			return manageProject.listFields(show);
-		
-		else if (ST.equals("publication"))
-			return managePublication.listFields(show);
-		else {
-			
+	public ArrayList<String> listFields(String ST, Boolean show) {
+		if (ST.toLowerCase().equals("collaborator")) {
+			Collaborator coll = new Collaborator();
+			return manageCollaborator.listFields(show, coll);
+		}
+		else if (ST.toLowerCase().equals("orientation")) {
+			Orientation orien = new Orientation();
+			return manageOrientation.listFields(show, orien);
+		}
+		else if (ST.toLowerCase().equals("participation")) {
+			Participation part = new Participation();
+			return manageParticipation.listFields(show, part);
+		}
+		else if (ST.toLowerCase().equals("project"))  {
+			Project proj = new Project();
+			return manageProject.listFields(show, proj);
+		}
+		else if (ST.toLowerCase().equals("publication")) {
+			Publication pub = new Publication();
+			return managePublication.listFields(show, pub);
 		}
 		return null;
 	}
 	
 	public void search(String ST, String field, String data, int spc_field) {
-		if (ST.equals("collaborator")) {
-			manageCollaborator.search(field, data, spc_field);
+		if (ST.toLowerCase().equals("collaborator")) {
+			Collaborator coll = new Collaborator();
+			manageCollaborator.search(field, data, spc_field, coll);
 		}
-		else if (ST.equals("orientation"))
-			manageOrientation.search(field, data, spc_field);
-		
-		else if (ST.equals("participation"))
-			manageParticipation.search(field, data, spc_field);
-		
-		else if (ST.equals("project"))
-			manageProject.search(field, data, spc_field);
-		
-		else if (ST.equals("publication"))
-			managePublication.search(field, data, spc_field);
+		else if (ST.toLowerCase().equals("orientation")) {
+			Orientation orien = new Orientation();
+			manageOrientation.search(field, data, spc_field, orien);
+		}
+		else if (ST.toLowerCase().equals("participation")) {
+			Participation part = new Participation();
+			manageParticipation.search(field, data, spc_field, part);
+		}
+		else if (ST.toLowerCase().equals("project")) {
+			Project proj = new Project();
+			manageProject.search(field, data, spc_field, proj);
+		}
+		else if (ST.toLowerCase().equals("publication")) {
+			Publication pub = new Publication();
+			managePublication.search(field, data, spc_field, pub);
+		}
 	}
 	
-	public String[] getModels() {
+	public void show_all(String ST, String field, String data, int spc_field) {
+		if (ST.toLowerCase().equals("collaborator")) {
+			Collaborator coll = new Collaborator();
+			manageCollaborator.show_all(spc_field, coll);
+		}
+		else if (ST.toLowerCase().equals("orientation")) {
+			Orientation orien = new Orientation();
+			manageOrientation.show_all(spc_field, orien);
+		}
+		else if (ST.toLowerCase().equals("participation")) {
+			Participation part = new Participation();
+			manageParticipation.show_all(spc_field, part);
+		}
+		else if (ST.toLowerCase().equals("project")) {
+			Project proj = new Project();
+			manageProject.show_all(spc_field, proj);
+		}
+		else if (ST.toLowerCase().equals("publication")) {
+			Publication pub = new Publication();
+			managePublication.show_all(spc_field, pub);
+		}
+	}
+	public String[] getNamesModels() {
 		return models;
+	}
+
+	public void showNameModel(int id) {
+		System.out.println(models[id]);
+	}
+	
+	public String academicReport(Boolean show) {
+		return manageProject.academicReport(show);
 	}
 	
 	public Boolean remove(String ST, int id) {
 	
-		if (ST.equals("collaborator"))
+		if (ST.toLowerCase().equals("collaborator"))
 			return manageCollaborator.remove(id);
 		
-		else if (ST.equals("orientation"))
+		else if (ST.toLowerCase().equals("orientation"))
 			return manageOrientation.remove(id);
 		
-		else if (ST.equals("participation"))
+		else if (ST.toLowerCase().equals("participation"))
 			return manageParticipation.remove(id);
 		
-		else if (ST.equals("project"))
+		else if (ST.toLowerCase().equals("project"))
 			return manageProject.remove(id);
 		
-		else if (ST.equals("publication"))
+		else if (ST.toLowerCase().equals("publication"))
 			return managePublication.remove(id);
 		
 		

@@ -6,14 +6,15 @@ import java.io.InputStreamReader;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.Map;
 
 import com.aps.controller.APS;
-import com.aps.controller.Manage;
 import com.aps.controller.ManageProject;
 import com.aps.model.Collaborator;
 import com.aps.model.Orientation;
 import com.aps.util.TextCmd;
+import com.aps.util.Util;
 
 public class Menu {
 	
@@ -31,7 +32,7 @@ public class Menu {
 				"Gerenciar dados", 
 				"Imprimir relatorio de produção academica", 
 				"Sair")));
-		text_cmd.add("manage_list","Selecione qual setor deseja gerenciar:",  new ArrayList<String>(Arrays.asList(aps.getModels())));
+		text_cmd.add("manage_list","Selecione qual setor deseja gerenciar:",  new ArrayList<String>(Arrays.asList(aps.getNamesModels())));
 		text_cmd.addOpt("manage_list", "Voltar");
 		text_cmd.addOpt("manage_list", "Sair");
 		
@@ -43,8 +44,9 @@ public class Menu {
 				"Voltar",
 				"Sair")));
 		
-		text_cmd.add("manage_opt_search","Digite campo e valor para fazer a busca:\nExemplo: name junior");
+		text_cmd.add("manage_opt_search","Digite campo e valor para fazer a busca: (Exp: name Valdir)");
 		text_cmd.add("manage_opt_search_result","Resultado da busca:");
+		text_cmd.add("manage_opt_add","Digite os valores correspondentes aos seguintes campos:");
 
 		text_cmd.add("goodbye","Adeus!");
 
@@ -55,7 +57,6 @@ public class Menu {
 		aps.add("collaborator", co);
 	}
 	
-	@SuppressWarnings("unchecked")
 	public void start() {
 		try {
 			reader = new BufferedReader(new InputStreamReader(System.in));
@@ -82,17 +83,21 @@ public class Menu {
 						break;
 					case 0:
 						intro = true;
+						text_cmd.opt_selected(panel, text_cmd.getHistoryInput(0));
 						panel = "manage_list";
 						break;
 					case 1:
 						intro = false;
-						((ManageProject) managers.get("Project")).academicReport(true);
-						text_cmd.opt(panel);	
+						text_cmd.opt_selected(panel, text_cmd.getHistoryInput(0));
+						aps.academicReport(true);
+						text_cmd.opt(panel);
+						text_cmd._n(1);
 						cmd = reader.readLine();
 						text_cmd._n(2);
 						break;
 					case 2:	
 						panel = "0";
+						text_cmd.opt_selected(panel, text_cmd.getHistoryInput(0));
 						text_cmd.text("goodbye");
 						break;
 					}
@@ -122,16 +127,15 @@ public class Menu {
 						break;
 					default:
 						intro = true;
-						text_cmd.getOpt(panel, text_cmd.getLast_opt());
-						System.out.println(text_cmd.getOpt(panel, text_cmd.getLast_opt()));
+						text_cmd.getOpt(panel, text_cmd.getHistoryInput(0));
 						panel = "manage_opt_home";
 					}
 				}
 				
 				
 				else if (panel == "manage_opt_home") {
-				
 					if (intro) {
+						aps.showNameModel(text_cmd.getHistoryInput(0));
 						text_cmd.text(panel);
 						text_cmd.opt(panel);	
 						cmd = reader.readLine();
@@ -144,17 +148,29 @@ public class Menu {
 						text_cmd._n(2);
 						break;
 					case 0:
-						intro = false;
-						panel = "manage_opt_search";
-						aps.listFields("Collaborator", true);						
-						text_cmd.text("manage_opt_search");
-						cmd = reader.readLine();
-						text_cmd.text("manage_opt_search_result");		
-						aps.search("collaborator", cmd.split(" ")[0], cmd.split(" ")[1], 6);
+						intro = true;
+						aps.showNameModel(text_cmd.getHistoryInput(1));
+						if (aps.listFields(aps.getNamesModels()[text_cmd.getHistoryInput(1)], true) != null) {						
+							text_cmd.text("manage_opt_search");
+							cmd = reader.readLine();
+							text_cmd.text("manage_opt_search_result");		
+							aps.search(aps.getNamesModels()[text_cmd.getHistoryInput(1)], cmd.split(" ")[0], cmd.split(" ")[1], 10);
+						}
+						text_cmd.HistoryInput_remove_last();
+						text_cmd._n(1);
 						break;
 					case 1:
 						intro = false;
-						panel = "manage_opt_add";
+						text_cmd.getOpt(panel, text_cmd.getHistoryInput(0));
+						text_cmd.text("manage_opt_add");
+						Map<String, String> fields_and_values = new HashMap<String, String>();
+							for (String namefields: aps.listFields(aps.getNamesModels()[text_cmd.getHistoryInput(1)], false)) {
+								System.out.print("\n"+Util.StringRemoveGet_(namefields)+":\n>");
+								cmd = reader.readLine();
+								fields_and_values.put(namefields, cmd);
+							}
+							aps.add(aps.getNamesModels()[text_cmd.getHistoryInput(1)], fields_and_values);
+						
 						break;
 					case 2:
 						intro = true;
@@ -174,8 +190,6 @@ public class Menu {
 						break;
 					}
 				}
-				
-				
 			}	
 		} catch (IOException e) {
 			e.printStackTrace();

@@ -12,6 +12,10 @@ public class Publication implements Model{
 	private Date year;
 	private Project project;
 	
+	public Publication() {
+		authors_collaborators_fk = new ArrayList<Integer>();
+	}
+	
 	public Publication(String title, ArrayList<Integer> authors_collaborators_fk, String conference, Date year, Project project) {
 		this.title = title;
 		this.authors_collaborators_fk = authors_collaborators_fk;

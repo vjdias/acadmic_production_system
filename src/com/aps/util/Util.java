@@ -1,11 +1,5 @@
 package com.aps.util;
 
-import com.aps.controller.Manage;
-import com.aps.controller.ManageProject;
-import com.aps.model.Collaborator;
-import com.aps.model.Participation;
-import com.aps.model.Project;
-
 public class Util {
 	
 	public static String StringCapitalize(String s) {
@@ -16,8 +10,10 @@ public class Util {
 	
 	public static String StringGettify(String common_word, int length_ignore) {
 		String gettify = "";
+		String gettify_ = "";
+		String _char = "";
 		
-		if (common_word != null && common_word.length()>3) {
+		if (common_word != null) {
 			if (common_word.contains(" ")) {
 				for (String words_btw_spaces : common_word.split(" ")) {
 					
@@ -35,54 +31,53 @@ public class Util {
 		
 		if (gettify != null && gettify.length()>3) {
 
-			if (gettify.substring(0,3).equals("get") && gettify.substring(3, 4).equals(gettify.substring(3,4).toUpperCase())) {
-				return gettify;
-				
-			} else if (!gettify.substring(0,3).equals("get") && !gettify.substring(3, 4).equals(gettify.substring(3,4).toUpperCase())) {
-				return "get" + gettify.substring(0,1).toUpperCase() + gettify.substring(1);
+			if (!gettify.substring(0,3).equals("get"))
+				gettify = "get" + gettify.substring(0,1).toUpperCase()+gettify.substring(1);
 			
-			} else if (gettify.substring(0,3).equals("get") && !gettify.substring(3, 4).equals(gettify.substring(3,4).toUpperCase())) {
-				return gettify.substring(0,3) +gettify.substring(3,4).toUpperCase() + gettify.substring(4);
-			
-			}  else if (!gettify.substring(0,3).equals("get") && !gettify.substring(3, 4).equals(gettify.substring(3,4).toUpperCase())) {
-				return "get" + gettify.substring(3,4).toUpperCase() + gettify.substring(4);
-			} 
-			
+		} else {
+			gettify = "get" + gettify.substring(0,1).toUpperCase()+gettify.substring(1);
 		}
-		return gettify;
+
+		gettify_ = gettify.substring(0, 4);
+
+		for (int i = 4; i < gettify.length(); i++) {	
+			_char = gettify.substring(i, i+1);
+			if (_char.equals(_char.toUpperCase())) {
+				gettify_ += "_"+_char.toLowerCase();
+			} else 
+				gettify_ += _char;
+			 
+		}	
+		
+		
+		return gettify_;
 	}
 
-	public static String StringDesGettify(String f) {
+	public static String StringRemoveGet_(String f) {
+		String _char = "";
+		String new_f = "";
+		Boolean skip = false;
 		if (f != null && f.length()>3) {
 			if (f.substring(0,3).equals("get")) {
 				f = f.substring(3);
 			}
-			f = f.toLowerCase();
+			
+			if (f.contains("_")) {
+				for (int i = 0; i < f.length(); i++) {
+					_char = f.substring(i, i+1);
+					if (_char.equals("_")) {
+						new_f += f.substring(i+1, i+2).toUpperCase();
+						skip = true;
+					} else if (skip == false)
+						new_f += _char;
+					 else
+						skip = false;
+				}	
+			} else {
+				new_f = f;
+			}
 		}
-		return f;
+		return new_f;
 	}
-	
-	public void test() {
-//		Manage<Publication> ManagePublication = new Manage<Publication>(); 
-		Manage<Collaborator> ManageCollaborator = new Manage<Collaborator>();
-		Manage<Participation> ManageParticipation = new Manage<Participation>();
-		ManageProject prjm = new ManageProject(ManageCollaborator, ManageParticipation);
-		
-		Project prj = new Project("Projeto da uiu");
-		prjm.add(prj);
 
-		Project prj1 = new Project("");
-		
-		if (prjm.get("getTitle", "Projeto da uiu").size() > 0) {
-			prj1 = prjm.get("getTitle", "Projeto da uiu").get(0);
-		}
-		
-		System.out.println(prj1.getTitle());
-		
-		Manage<Collaborator> mColl = new Manage<Collaborator>();
-		mColl.add(new Collaborator("Valdir", "inv@gmail.com", "university student"));
-
-		System.out.println(mColl.get("name ", "Valdir").toString());
-		System.out.println(mColl.get("getname", "Valdir").toString());
-	}
 }

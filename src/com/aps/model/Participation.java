@@ -8,7 +8,10 @@ public class Participation implements Model {
 	private Boolean active;
 	private Date date_begin;
 	private Date date_ending;
-		
+
+	public Participation() {}
+
+	
 	public Participation(int project_fk, Boolean active, Date date_begin) {
 		this.active = active;
 		this.project_fk= project_fk;

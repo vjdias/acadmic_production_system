@@ -1,32 +1,23 @@
 package com.aps.model;
 
 import java.util.ArrayList;
-import java.util.Date;
 
 public class Orientation implements Model {
 	private int id;
 	private ArrayList<Integer> professors_collaborators_fk;
 	private String description;
 	private Boolean active;
-	private Date date_begin;
-	private Date date_ending;
+	private int date_begin;
+	private int date_ending;
 	
-	public Orientation() {}
+	public Orientation() {
+		professors_collaborators_fk = new ArrayList<Integer>();
+	}
 	
 	public Orientation(ArrayList<Integer> professors_collaborators_fk, String description) {
 		this.professors_collaborators_fk = professors_collaborators_fk;
 		this.setDescription(description);
 		this.active = true;
-		this.date_begin = new Date(System.currentTimeMillis());
-	}
-
-	public Orientation(ArrayList<Integer> professors_collaborators_fk, String description, Boolean active, Date date_begin, 
-			Date date_ending) {
-		this.professors_collaborators_fk = professors_collaborators_fk;
-		this.setDescription(description);
-		this.active = active;
-		this.date_begin = date_begin;
-		this.date_ending = date_ending;
 	}
 	
 	public String toString() {
@@ -68,16 +59,16 @@ public class Orientation implements Model {
 	public void setActive(Boolean active) {
 		this.active = active;
 	}
-	public Date getDate_begin() {
+	public int getDate_begin() {
 		return date_begin;
 	}
-	public void setDate_begin(Date date_begin) {
+	public void setDate_begin(int date_begin) {
 		this.date_begin = date_begin;
 	}
-	public Date getDate_ending() {
+	public int getDate_ending() {
 		return date_ending;
 	}
-	public void setDate_ending(Date date_ending) {
+	public void setDate_ending(int date_ending) {
 		this.date_ending = date_ending;
 	}
 }

@@ -17,8 +17,10 @@ public class Project implements Model {
 
 	private String status;
 	
-	public Project(String title) {
-		this.title = title;
+	public Project() {
+		collaborators_fk = new ArrayList<Integer>();
+		publications_fk = new ArrayList<Integer>();
+		orientations_fk = new ArrayList<Integer>();
 	}
 	
 	public Project(String title, Date date_begin, Date date_ending, String financing_company, 

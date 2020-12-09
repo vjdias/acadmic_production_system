@@ -8,13 +8,14 @@ public class TextCmd {
 	private String name;
 	private String text;
 	private ArrayList<String> opt;
-	private int last_opt;
+	private ArrayList<Integer> history_input;
 	private String last_name;
 	private Map<String, TextCmd> all_texts;
-	
+
 	public TextCmd() {
 		last_name = "";
 		all_texts = new HashMap<String, TextCmd>();
+		history_input = new ArrayList<Integer>();
 	}
 	
 	public TextCmd(String name, String text) {
@@ -55,6 +56,10 @@ public class TextCmd {
 		}
 		System.out.print(all_opt+">");
 	}
+
+	public void opt_selected(String name, int id) {
+		System.out.println(all_texts.get(name).opt.get(id));
+	}
 	
 	public void _n(int n) {
 		System.out.print("\n".repeat(n));
@@ -64,7 +69,7 @@ public class TextCmd {
 		for (int i = 0; i < all_texts.get(name).opt.size(); i++) {
 			if (option.equals(Integer.toString(i)) || 
 					option.toLowerCase().equals(all_texts.get(name).opt.get(i).toLowerCase())) {
-				last_opt = i;
+				history_input.add(i);
 				return i;
 			}			
 		}
@@ -92,17 +97,23 @@ public class TextCmd {
 		return all_texts.get(name).opt.get(id);
 	}
 
+	public int getHistoryInput(int back) {
+		if (history_input.size() - back>= 0) 
+			return history_input.get(history_input.size() -1-back);
+		return -1;
+	}
+
+	public int HistoryInput_remove_last() {
+		if (history_input.size()> 0) 
+			return history_input.remove(history_input.size()-1);
+		return -1;
+	}
+
+	
 	public void addOpt(String name, String opt) {
 		all_texts.get(name).opt.add(opt);
 	}
 
-	public int getLast_opt() {
-		return last_opt;
-	}
-
-	public void setLast_opt(int last_opt) {
-		this.last_opt = last_opt;
-	}
 
 	public Map<String, TextCmd> getAll_texts() {
 		return all_texts;
