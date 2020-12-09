@@ -93,9 +93,9 @@ public class ManageProject extends Manage<Project> {
 		return obj_list.get(id).getStatus();
 	}
 	
-	public String academicReport (Boolean show) {
+	public String academicReport(Boolean show) {
 		
-		int[] info = {0,0,0,0,0,0};
+		int[] info = {0,0,0,0,0,0,0};
 		
 		for (Project proj: obj_list) {
 			
@@ -107,15 +107,23 @@ public class ManageProject extends Manage<Project> {
 				info[2] += 1;
 			else if (proj.getStatus() == "concluded")
 				info[3] += 1;
+
+			
+			info[5] += proj.getPublications_fk().size();
+			info[6] += proj.getOrientations_fk().size();
+
 		}
 		
+		info[4] = obj_list.size();
 		
-		String report = "Número de colaboradores: "
-					+ "\nNúmero de projetos em elaboração: "
-					+ "\nNúmero de projetos em andamento\n"
-					+ "\nNúmero de projetos concluídos\n"
-					+ "\nNúmero total de projetos\n"
-					+ "\nNúmero de produção acadêmica por tipo de produção";
+		String report = "Número de colaboradores: "+info[0]
+					+ "\nNúmero de projetos em elaboração: "+info[1]
+					+ "\nNúmero de projetos em andamento: "+info[2]
+					+ "\nNúmero de projetos concluídos: "+info[3]
+					+ "\nNúmero total de projetos: "+info[4]
+					+ "\nNúmero de produção acadêmica por tipo de produção:"
+					+ "\n	Publicações: "+info[5]
+					+ "\n	Orientações: "+info[6];
 			
 				
 		if (show) 

@@ -13,6 +13,8 @@ public class Project implements Model {
 	private String description;
 	private ArrayList<Integer> collaborators_fk;
 	private ArrayList<Integer> publications_fk;
+	private ArrayList<Integer> orientations_fk;
+
 	private String status;
 	
 	public Project(String title) {
@@ -21,7 +23,7 @@ public class Project implements Model {
 	
 	public Project(String title, Date date_begin, Date date_ending, String financing_company, 
 			String financing_amount, String description, ArrayList<Integer> collaborators_fk, 
-			ArrayList<Integer> publications_fk, String status) {
+			ArrayList<Integer> publications_fk, ArrayList<Integer> orientations_fk, String status) {
 		
 		this.title = title;
 		this.date_begin = date_begin;
@@ -116,6 +118,14 @@ public class Project implements Model {
 	
 	public void setStatus(String status) {
 		this.status = status;
+	}
+
+	public ArrayList<Integer> getOrientations_fk() {
+		return orientations_fk;
+	}
+
+	public void setOrientations_fk(ArrayList<Integer> orientations_fk) {
+		this.orientations_fk = orientations_fk;
 	}
 	
 }

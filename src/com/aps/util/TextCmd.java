@@ -92,8 +92,8 @@ public class TextCmd {
 		return all_texts.get(name).opt.get(id);
 	}
 
-	public void setOpt(ArrayList<String> opt) {
-		this.opt = opt;
+	public void addOpt(String name, String opt) {
+		all_texts.get(name).opt.add(opt);
 	}
 
 	public int getLast_opt() {
