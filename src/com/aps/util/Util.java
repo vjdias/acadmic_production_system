@@ -1,5 +1,8 @@
 package com.aps.util;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+
 public class Util {
 	
 	public static String StringCapitalize(String s) {
@@ -80,4 +83,33 @@ public class Util {
 		return new_f;
 	}
 
+	public static ArrayList<String> Str2ArrayList(String str) {
+		if (str.contains(","))
+			return new ArrayList<String>(Arrays.asList(str.split(",")));
+		else if (str.contains(" "))
+			return new ArrayList<String>(Arrays.asList(str.split(" ")));
+		return null;
+	}
+	
+	public static boolean verify_str2integer(String str) {
+		try {
+			Integer.parseInt(str);
+			return true;
+		} catch (Exception e) {
+			System.out.println("Valor digitado não é numerico, adicione um valor valido.");
+		}
+		return false;
+	}
+	
+	public static String fk_name(String fk, boolean singular) {
+		String[] _names = fk.split("_");
+		String name = StringRemoveGet_(_names[_names.length - 2]);
+		name = name.substring(0, name.length()-1);		
+		
+		if (singular && name.substring(name.length() - 3, name.length() - 2).equals("s")) {
+			name = name.substring(0, name.length() - 3);
+			return name;
+		}
+		return name;
+	}
 }

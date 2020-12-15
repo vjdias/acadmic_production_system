@@ -7,8 +7,8 @@ public class Orientation implements Model {
 	private ArrayList<Integer> professors_collaborators_fk;
 	private String description;
 	private Boolean active;
-	private int date_begin;
-	private int date_ending;
+	private int start_year;
+	private int conclusion_year;
 	
 	public Orientation() {
 		professors_collaborators_fk = new ArrayList<Integer>();
@@ -59,16 +59,16 @@ public class Orientation implements Model {
 	public void setActive(Boolean active) {
 		this.active = active;
 	}
-	public int getDate_begin() {
-		return date_begin;
+	public int getStart_year() {
+		return start_year;
 	}
-	public void setDate_begin(int date_begin) {
-		this.date_begin = date_begin;
+	public void setStart_year(int start_year) {
+		this.start_year = start_year;
 	}
-	public int getDate_ending() {
-		return date_ending;
+	public int getConclusion_year() {
+		return conclusion_year;
 	}
-	public void setDate_ending(int date_ending) {
-		this.date_ending = date_ending;
+	public void setConclusion_year(int conclusion_year) {
+		this.conclusion_year = conclusion_year;
 	}
 }

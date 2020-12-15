@@ -1,41 +1,25 @@
 package com.aps.model;
 
 import java.util.ArrayList;
-import java.util.Date;
 
 public class Project implements Model {
 	private int id;
 	private String title;
-	private Date date_begin;
-	private Date date_ending;
+	private int start_year;
+	private int conclusion_year;
+
 	private String financing_company;
 	private String financing_amount;
 	private String description;
 	private ArrayList<Integer> collaborators_fk;
 	private ArrayList<Integer> publications_fk;
 	private ArrayList<Integer> orientations_fk;
-
 	private String status;
 	
 	public Project() {
 		collaborators_fk = new ArrayList<Integer>();
 		publications_fk = new ArrayList<Integer>();
 		orientations_fk = new ArrayList<Integer>();
-	}
-	
-	public Project(String title, Date date_begin, Date date_ending, String financing_company, 
-			String financing_amount, String description, ArrayList<Integer> collaborators_fk, 
-			ArrayList<Integer> publications_fk, ArrayList<Integer> orientations_fk, String status) {
-		
-		this.title = title;
-		this.date_begin = date_begin;
-		this.date_ending = date_ending;
-		this.financing_company = financing_company;
-		this.financing_amount = financing_amount;
-		this.description = description;
-		this.collaborators_fk = collaborators_fk;
-		this.publications_fk = publications_fk;
-		this.status = status;
 	}
 
 	public String toString() {
@@ -56,22 +40,6 @@ public class Project implements Model {
 
 	public void setTitle(String title) {
 		this.title = title;
-	}
-
-	public Date getDate_begin() {
-		return date_begin;
-	}
-
-	public void setDate_begin(Date date_begin) {
-		this.date_begin = date_begin;
-	}
-
-	public Date getDate_ending() {
-		return date_ending;
-	}
-
-	public void setDate_ending(Date date_ending) {
-		this.date_ending = date_ending;
 	}
 
 	public String getFinancing_company() {
@@ -98,6 +66,22 @@ public class Project implements Model {
 		this.description = description;
 	}
 
+	public int getStart_year() {
+		return start_year;
+	}
+
+	public void setStart_year(int start_year) {
+		this.start_year = start_year;
+	}
+
+	public int getConclusion_year() {
+		return conclusion_year;
+	}
+
+	public void setConclusion_year(int conclusion_year) {
+		this.conclusion_year = conclusion_year;
+	}
+	
 	public ArrayList<Integer> getCollaborators_fk() {
 		return collaborators_fk;
 	}

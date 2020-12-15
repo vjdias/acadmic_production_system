@@ -1,5 +1,10 @@
 package com.aps.controller;
 
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.Map;
+import java.util.stream.Collectors;
+
 import com.aps.model.Collaborator;
 import com.aps.model.Participation;
 import com.aps.model.Project;
@@ -11,10 +16,26 @@ public class ManageProject extends Manage<Project> {
 	
 	public ManageProject(Manage<Collaborator> ManageCollaborator, Manage<Participation> ManageParticipation) {
 		this.ManageCollaborator = ManageCollaborator;
+		
 		this.ManageParticipation= ManageParticipation;
 	}
 	
-	public Boolean add(Project obj) {
+	public Boolean add(Map<String, String> fields_and_values, Project obj) {
+
+		obj = invoke_model(fields_and_values, obj);	
+		if (obj.getStatus() == null) {	
+			System.out.println("Não é possivel adicionar este projeto a este projeto, falta informar seu status");
+			return false;
+		}
+		
+		if (!obj.getStatus().equals("in preparation") && 
+			obj.getCollaborators_fk() != null) {
+			
+			System.out.println("Não é possivel adicionar esse colaborador a este projeto, "
+					+ "pois o projeto não esta em preparação.");						
+			return false;
+		}
+
 		Boolean exist_professor = false;
 		
 		if (obj.getCollaborators_fk() != null) {
@@ -22,13 +43,13 @@ public class ManageProject extends Manage<Project> {
 				
 				Collaborator coll = ManageCollaborator.get(coll_fk);
 				
-				if (coll.getAcademic_degree() == "Professor") {
+				if (coll.getAcademic_degree().equals("Professor")) {
 					exist_professor = true;
 					
 				} else if (coll.getAcademic_degree() == "University student") {
 					for (int part_fk: coll.getHistory_project_participation_fk()) {
 						Participation part = ManageParticipation.get(part_fk);
-						if (part.getActive()) {
+						if (part != null && part.getActive()) {
 							if (get(part.getProject_fk()).getStatus() == "in progress") {
 								System.out.println("Aluno ja esta em um projeto em andamento.");
 								return false;
@@ -39,8 +60,7 @@ public class ManageProject extends Manage<Project> {
 			}
 		}
 		if (exist_professor) {
-			obj.setId(obj_list.size());
-			return obj_list.add(obj);
+			return add(obj);
 		} else {
 			System.out.println("Este projeto precisa de no minimo um professor.");			
 		}
@@ -53,41 +73,60 @@ public class ManageProject extends Manage<Project> {
 	}
 	
 	public Boolean add_collaborator_project(int id_project, int coll_fk) {
-		if (obj_list.get(id_project).getStatus() != "in preparation") {
-			System.out.println("Não é possivel adicionar colaborador a este projeto.");						
-			return false;
-		}
 
-		Collaborator coll = ManageCollaborator.get(coll_fk);
-		
-		for (int part_fk: coll.getHistory_project_participation_fk()) {
-			Participation part = ManageParticipation.get(part_fk);
-			if (part.getActive()) {
-				if (get(part.getProject_fk()).getStatus() == "in progress") {
-					System.out.println("Aluno ja esta em um projeto em andamento.");
+			for (Integer coll_id: obj_list.get(id_project).getCollaborators_fk()) {
+				if (coll_id == coll_fk) {
+					System.out.print("Esse colaborador ja participa deste projeto");
 					return false;
 				}
 			}
-		}
 		
-		return obj_list.get(id_project).getCollaborators_fk().add(coll_fk);
+			if (obj_list.get(id_project).getStatus() != "in preparation") {
+				System.out.println("Não é possivel adicionar esse colaborador a este projeto, "
+						+ "pois o projeto não esta em preparação.");						
+				return false;
+			}
+	
+			Collaborator coll = ManageCollaborator.get(coll_fk);
+			
+			for (int part_fk: coll.getHistory_project_participation_fk()) {
+				Participation part = ManageParticipation.get(part_fk);
+				if (part.getActive()) {
+					if (get(part.getProject_fk()).getStatus() == "in progress") {
+						System.out.println("Aluno "+coll.getId()+":"+coll.getName()+" ja esta em um projeto em andamento.");
+						return false;
+					}
+				}
+			}
+			
+			ManageCollaborator.get(coll_fk).getHistory_project_participation_fk().add(id_project);
+			
+			return obj_list.get(id_project).getCollaborators_fk().add(coll_fk);
 	}
 	
 	public Boolean add_publication_project(int id_project, int publication_fk) {
+		
 		if (obj_list.get(id_project).getStatus() != "in preparation") {
 			System.out.println("Não é possivel adicionar publicação a este projeto.");						
 			return false;
-		}		
+		}	
+		
 		return obj_list.get(id_project).getPublications_fk().add(publication_fk);
+		
 	}
 	
 	public String nextStatus(int id) {
+		
+		if (obj_list.get(id).getStatus() == null) {
+			obj_list.get(id).setStatus("in preparation");
+		}
+		
 		if (obj_list.get(id).getStatus().equals("in preparation")) {
 			obj_list.get(id).setStatus("in progress");		
 		} else if (obj_list.get(id).getStatus().equals("in progress")) {
 			obj_list.get(id).setStatus("concluded");			
 		} else {
-			obj_list.get(id).getStatus().equals("in preparation");
+			obj_list.get(id).setStatus("in preparation");
 		}
 		
 		return obj_list.get(id).getStatus();
@@ -131,19 +170,14 @@ public class ManageProject extends Manage<Project> {
 		
 		return report;
 	}
-
-	public Boolean remove(int id_project) {
-		try {			
-			if (obj_list.remove(obj_list.get(id_project))) {
-				for (int i = id_project; i < obj_list.size(); i++) {
-					obj_list.get(id_project).setId(obj_list.get(id_project).getId() - 1);			
-				}
-				return true;
-			}
-		} catch (IndexOutOfBoundsException e) {
-			System.out.println("Erro->Índice fornecido não existe nos dados");
-			System.out.println("      Índice: "+id_project+", Indices disponiveis de 0 a "+obj_list.size()+".");
+	
+	protected ArrayList<Project> get_obj_list(Boolean sort_by) {
+		if (sort_by) {
+			return (ArrayList<Project>) obj_list
+					.stream().sorted(Comparator.comparing(Project::getStart_year).reversed())
+					.collect(Collectors.toList());
 		}
-		return false;
+		return obj_list;
 	}
+	
 }

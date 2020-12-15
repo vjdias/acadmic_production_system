@@ -1,7 +1,6 @@
 package com.aps.model;
 
 import java.util.ArrayList;
-import java.util.Date;
 
 public class Publication implements Model{
 	private int id;
@@ -9,14 +8,14 @@ public class Publication implements Model{
 	
 	private ArrayList<Integer> authors_collaborators_fk;
 	private String conference;
-	private Date year;
+	private int year;
 	private Project project;
 	
 	public Publication() {
 		authors_collaborators_fk = new ArrayList<Integer>();
 	}
 	
-	public Publication(String title, ArrayList<Integer> authors_collaborators_fk, String conference, Date year, Project project) {
+	public Publication(String title, ArrayList<Integer> authors_collaborators_fk, String conference, int year, Project project) {
 		this.title = title;
 		this.authors_collaborators_fk = authors_collaborators_fk;
 		this.conference = conference;
@@ -48,10 +47,10 @@ public class Publication implements Model{
 	public void setConference(String conconference) {
 		this.conference = conconference;
 	}
-	public Date getYear() {
+	public int getYear() {
 		return year;
 	}
-	public void setYear(Date year) {
+	public void setYear(int year) {
 		this.year = year;
 	}
 	public Project getProject() {

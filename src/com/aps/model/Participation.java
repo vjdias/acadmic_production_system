@@ -1,31 +1,13 @@
 package com.aps.model;
 
-import java.util.Date;
-
 public class Participation implements Model {
 	private int id;
 	private int project_fk;
 	private Boolean active;
-	private Date date_begin;
-	private Date date_ending;
+	private int start_year;
+	private int conclusion_year;
 
 	public Participation() {}
-
-	
-	public Participation(int project_fk, Boolean active, Date date_begin) {
-		this.active = active;
-		this.project_fk= project_fk;
-		this.active = true;
-		this.date_begin = new Date(System.currentTimeMillis());
-	}
-
-	public Participation(int project_fk, Boolean active, Date date_begin, Date date_ending) {
-		this.active = active;
-		this.project_fk = project_fk;
-		this.active = active;
-		this.date_begin = date_begin;
-		this.date_ending = date_ending;
-	}
 
 	public int getId() {
 		return id;
@@ -45,16 +27,21 @@ public class Participation implements Model {
 	public void setActive(Boolean active) {
 		this.active = active;
 	}
-	public Date getDate_begin() {
-		return date_begin;
+
+	public int getStart_year() {
+		return start_year;
 	}
-	public void setDate_begin(Date date_begin) {
-		this.date_begin = date_begin;
+
+	public void setStart_year(int start_year) {
+		this.start_year = start_year;
 	}
-	public Date getDate_ending() {
-		return date_ending;
+
+	public int getConclusion_year() {
+		return conclusion_year;
 	}
-	public void setDate_ending(Date date_ending) {
-		this.date_ending = date_ending;
+
+	public void setConclusion_year(int conclusion_year) {
+		this.conclusion_year = conclusion_year;
 	}
+
 }

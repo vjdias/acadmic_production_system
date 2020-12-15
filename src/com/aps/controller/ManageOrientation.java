@@ -1,5 +1,7 @@
 package com.aps.controller;
 
+import java.util.Map;
+
 import com.aps.model.Collaborator;
 import com.aps.model.Orientation;
 
@@ -11,7 +13,9 @@ public class ManageOrientation extends Manage<Orientation>{
 		this.ManageCollaborator = ManageCollaborator;
 	}
 	
-	public Boolean add(Orientation obj) {
+	public Boolean add(Map<String, String> fields_and_values, Orientation obj) {
+		
+		obj = invoke_model(fields_and_values, obj);
 		
 		for (Integer coll_fk: obj.getProfessors_collaborators_fk()) {
 			if (ManageCollaborator.get(coll_fk).getAcademic_degree() != "Professor") {
@@ -19,6 +23,6 @@ public class ManageOrientation extends Manage<Orientation>{
 				return false;
 			}
 		}
-		return true;
+		return add(obj);
 	}
 }
