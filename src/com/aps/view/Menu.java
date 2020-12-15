@@ -140,24 +140,24 @@ public class Menu {
 												entry("getConclusion_year", "2024"), 
 												entry("getProfessors_collaborators_fk", "1")));
 
-		aps.add("orientation", Map.ofEntries(entry("getDescription", "Orientação artigo sobre Qualidade da água"), 
+		aps.add("orientation", Map.ofEntries(entry("getDescription", "Orientação artigo sobre qualidade da água"), 
 											entry("getActive", "true"), 
 											entry("getStart_year", "2023"), 
 											entry("getConclusion_year", "2024"),
 											entry("getProfessors_collaborators_fk", "0")));
 			
 		aps.add("publication", Map.ofEntries(entry("getDescription", "Publicação do artigo sobre PLE"), 
-											entry("getConferece", "true"), 
+											entry("getConference", "Conferencia Internacional"), 
 											entry("getYear", "2023"), 
 											entry("getProject", "0"),
-											entry("getProfessors_collaborators_fk", "0 2")));
+											entry("getAuthors_collaborators_fk", "0 2")));
 									
 
-		aps.add("publication", Map.ofEntries(entry("getDescription", "Publicação do artigo sobre PLE"), 
-											entry("getConferece", "true"), 
+		aps.add("publication", Map.ofEntries(entry("getDescription", "Publicação do artigo sobre qualidade da água"),
+											entry("getConference", "Conferencia Nacional"), 
 											entry("getYear", "2023"), 
 											entry("getProject", "1"),
-											entry("getProfessors_collaborators_fk", "1 4")));
+											entry("getAuthors_collaborators_fk", "1 4")));
 	}
 	
 	public void start() {

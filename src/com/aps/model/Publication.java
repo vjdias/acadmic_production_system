@@ -9,13 +9,13 @@ public class Publication implements Model{
 	private ArrayList<Integer> authors_collaborators_fk;
 	private String conference;
 	private int year;
-	private Project project;
+	private int project;
 	
 	public Publication() {
 		authors_collaborators_fk = new ArrayList<Integer>();
 	}
 	
-	public Publication(String title, ArrayList<Integer> authors_collaborators_fk, String conference, int year, Project project) {
+	public Publication(String title, ArrayList<Integer> authors_collaborators_fk, String conference, int year, int project) {
 		this.title = title;
 		this.authors_collaborators_fk = authors_collaborators_fk;
 		this.conference = conference;
@@ -35,10 +35,10 @@ public class Publication implements Model{
 	public void setTitle(String title) {
 		this.title = title;
 	}
-	public ArrayList<Integer> getAuthors_fk() {
+	public ArrayList<Integer> getAuthors_collaborators_fk() {
 		return authors_collaborators_fk;
 	}
-	public void setAuthors_fk(ArrayList<Integer> authors) {
+	public void setAuthors_collaborators_fk(ArrayList<Integer> authors) {
 		this.authors_collaborators_fk = authors;
 	}
 	public String getConference() {
@@ -53,10 +53,10 @@ public class Publication implements Model{
 	public void setYear(int year) {
 		this.year = year;
 	}
-	public Project getProject() {
+	public int getProject() {
 		return project;
 	}
-	public void setProject(Project project) {
+	public void setProject(int project) {
 		this.project = project;
 	}
 }

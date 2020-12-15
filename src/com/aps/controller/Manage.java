@@ -38,7 +38,7 @@ public class Manage<T extends Model> {
 						meth.invoke(obj, entry.getValue());					
 					
 					} else if (obj.getClass().getMethod(getMethName).getReturnType().equals(Boolean.class)) {
-						meth = obj.getClass().getMethod(setMethName, int.class);
+						meth = obj.getClass().getMethod(setMethName, Boolean.class);
 						meth.invoke(obj, Boolean.parseBoolean(entry.getValue()));					
 
 					} else if (obj.getClass().getMethod(getMethName).getReturnType().equals(int.class)) {
