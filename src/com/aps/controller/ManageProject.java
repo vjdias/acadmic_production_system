@@ -13,11 +13,15 @@ public class ManageProject extends Manage<Project> {
 	
 	private Manage<Collaborator> ManageCollaborator;
 	private Manage<Participation> ManageParticipation;
+	private ManagePublication ManagePublication;
+	private ManageOrientation ManageOrientation;
 	
-	public ManageProject(Manage<Collaborator> ManageCollaborator, Manage<Participation> ManageParticipation) {
+	public ManageProject(Manage<Collaborator> ManageCollaborator, Manage<Participation> ManageParticipation, ManagePublication ManagePublication, 
+			ManageOrientation ManageOrientation) {
 		this.ManageCollaborator = ManageCollaborator;
-		
 		this.ManageParticipation= ManageParticipation;
+		this.ManagePublication = ManagePublication;
+		this.ManageOrientation = ManageOrientation;
 	}
 	
 	public Boolean add(Map<String, String> fields_and_values, Project obj) {
@@ -148,8 +152,8 @@ public class ManageProject extends Manage<Project> {
 				info[3] += 1;
 
 			
-			info[5] += proj.getPublications_fk().size();
-			info[6] += proj.getOrientations_fk().size();
+			info[5] += ManagePublication.get_size();
+			info[6] += ManageOrientation.get_size();
 
 		}
 		

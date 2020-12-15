@@ -146,14 +146,14 @@ public class Menu {
 											entry("getConclusion_year", "2024"),
 											entry("getProfessors_collaborators_fk", "0")));
 			
-		aps.add("publication", Map.ofEntries(entry("getDescription", "Publicação do artigo sobre PLE"), 
+		aps.add("publication", Map.ofEntries(entry("getTitle", "Publicação do artigo sobre PLE"), 
 											entry("getConference", "Conferencia Internacional"), 
 											entry("getYear", "2023"), 
 											entry("getProject", "0"),
 											entry("getAuthors_collaborators_fk", "0 2")));
 									
 
-		aps.add("publication", Map.ofEntries(entry("getDescription", "Publicação do artigo sobre qualidade da água"),
+		aps.add("publication", Map.ofEntries(entry("getTitle", "Publicação do artigo sobre qualidade da água"),
 											entry("getConference", "Conferencia Nacional"), 
 											entry("getYear", "2023"), 
 											entry("getProject", "1"),

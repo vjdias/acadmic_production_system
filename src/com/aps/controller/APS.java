@@ -23,8 +23,9 @@ public class APS {
 		manageCollaborator = new Manage<Collaborator>();
 		manageOrientation = new ManageOrientation(manageCollaborator);
 		manageParticipation = new Manage<Participation>();
-		manageProject = new ManageProject(manageCollaborator, manageParticipation);
 		managePublication = new ManagePublication();
+		manageProject = new ManageProject(manageCollaborator, manageParticipation, managePublication, manageOrientation);
+
 	}
 	
 	public Boolean add(String ST, Map<String, String> fields_and_values) {

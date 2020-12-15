@@ -5,7 +5,6 @@ import java.util.ArrayList;
 public class Publication implements Model{
 	private int id;
 	private String title;
-	
 	private ArrayList<Integer> authors_collaborators_fk;
 	private String conference;
 	private int year;
