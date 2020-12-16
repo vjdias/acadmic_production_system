@@ -135,10 +135,10 @@ public class Menu {
 		
 
 		aps.add("orientation", Map.ofEntries(entry("getDescription", "Orientação artigo sobre PLE"), 
-												entry("getActive", "true"), 
-												entry("getStart_year", "2023"), 
-												entry("getConclusion_year", "2024"), 
-												entry("getProfessors_collaborators_fk", "1")));
+											entry("getActive", "true"), 
+											entry("getStart_year", "2023"), 
+											entry("getConclusion_year", "2024"), 
+											entry("getProfessors_collaborators_fk", "1")));
 
 		aps.add("orientation", Map.ofEntries(entry("getDescription", "Orientação artigo sobre qualidade da água"), 
 											entry("getActive", "true"), 
@@ -241,7 +241,7 @@ public class Menu {
 			cmd = reader.readLine();
 			text_cmd._n(2);
 			break;
-		case 8:
+		case 5:
 			intro = true;
 			panel = "home";
 			break;

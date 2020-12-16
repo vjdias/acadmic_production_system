@@ -100,7 +100,6 @@ public class Manage<T extends Model> {
 						if (meth.invoke(obj).equals(data)) {
 							get_obj.add(obj);
 						}
-					
 					} else if (obj.getClass().getMethod(Util.StringGettify(field, 3)).getReturnType().equals(Boolean.class)) {
 						if (meth.invoke(obj).equals(Boolean.parseBoolean(data))) {
 							get_obj.add(obj);
@@ -109,7 +108,6 @@ public class Manage<T extends Model> {
 						if (meth.invoke(obj).equals(Integer.parseInt(data))) {
 							get_obj.add(obj);
 						}
-					
 					} else if (obj.getClass().getMethod(Util.StringGettify(field, 3)).getReturnType().equals(Date.class)) {
 				        SimpleDateFormat date_format = new SimpleDateFormat("dd/MM/yyyy"); 
 						
@@ -117,9 +115,7 @@ public class Manage<T extends Model> {
 							get_obj.add(obj);
 						}
 					}
-					
 				}  else {
-					
 					if (obj.getClass().getMethod(Util.StringGettify(field, 3)).getReturnType().equals(int.class)) {
 						if (meth.invoke(obj).equals(Integer.parseInt(data))) {
 							get_obj.add(obj);
