@@ -54,3 +54,7 @@ Digite o Id(s) que deseja associar a este modelo.
 
 > 0 2
 ```
+
+#Diagrams
+Model   
+! [Imagem de Yaktocat] (https://octodex.github.com/images/yaktocat.png)
