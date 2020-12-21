@@ -12,10 +12,6 @@ import com.aps.controller.APS;
 import com.aps.util.TextCmd;
 import com.aps.util.Util;
 
-
-import static java.util.Map.entry;
-
-
 public class Menu {
 	
 	private BufferedReader reader;
@@ -31,9 +27,14 @@ public class Menu {
 	
 	APS aps;
 
-	public Menu() {
+	public Menu(Boolean test) {
 		aps = new APS();
+		
+		if (test)
+			aps.test();
+		
 		text_cmd = new TextCmd();
+		text_cmd.clear_text();
 		text_cmd.add("welcome", "Academic Productivity System\nSeja bem vindo!");
 		text_cmd.add("home","Selecione uma das seguintes opções para prosseguir:", new ArrayList<String>(Arrays.asList(
 				"Gerenciar dados",
@@ -88,78 +89,7 @@ public class Menu {
 		text_cmd.add("goodbye","Adeus!");
 
 	}
-	
-	public void test() {
-		aps.add("collaborator", Map.ofEntries(entry("getName", "Maria"), 
-											  entry("getEmail", "ma@com"), 
-											  entry("getAcademic_degree", "Professor"), 
-											  entry("getHistory_project_participation_fk", "0")));
-		
-		aps.add("collaborator", Map.ofEntries(entry("getName", "João"), 
-											  entry("getEmail", "jo@com"), 
-											  entry("getAcademic_degree", "Professor"), 
-											  entry("getHistory_project_participation_fk", "1")));
-		
-		aps.add("collaborator", Map.ofEntries(entry("getName", "Camila"), 
-											  entry("getEmail", "ma@com"), 
-											  entry("getAcademic_degree", "University student"), 
-											  entry("getHistory_project_participation_fk", "0")));
-		
-		aps.add("collaborator", Map.ofEntries(entry("getName", "Valdir"), 
-											  entry("getEmail", "va@com"), 
-											  entry("getAcademic_degree", "University student"), 
-											  entry("getHistory_project_participation_fk", "")));
-		
-		aps.add("collaborator", Map.ofEntries(entry("getName", "José"), 
-											  entry("getEmail", "jos@com"), 
-											  entry("getAcademic_degree", "University student"), 
-											  entry("getHistory_project_participation_fk", "1")));
-		
-		aps.add("project", Map.ofEntries(entry("getTitle", "Teste de qualidade da água."), 
-										 entry("getFinancing_company", "Coca-Cola"), 
-										 entry("getFinancing_amount", "8000"), 
-										 entry("getDescription", "Teste de qualidade da água fornecida para faculdade"), 
-										 entry("getStart_year", "2021"),
-										 entry("getConclusion_year", "2022"),
-										 entry("getStatus", "in preparation"), 
-										 entry("getCollaborators_fk", "0,2")));
 
-		aps.add("project", Map.ofEntries(entry("getTitle", "Estudo dos efeitos da PLE nos universitarios."), 
-										 entry("getFinancing_company", "Ufal"), 
-										 entry("getFinancing_amount", "0"), 
-										 entry("getDescription", "Analise da qualidade do aprendizado dos universitarios."), 
-										 entry("getStart_year", "2023"),
-										 entry("getConclusion_year", "2025"), 
-										 entry("getStatus", "in preparation"), 
-										 entry("getCollaborators_fk", "1,4")));
-		
-
-		aps.add("orientation", Map.ofEntries(entry("getDescription", "Orientação artigo sobre PLE"), 
-											entry("getActive", "true"), 
-											entry("getStart_year", "2023"), 
-											entry("getConclusion_year", "2024"), 
-											entry("getProfessors_collaborators_fk", "1")));
-
-		aps.add("orientation", Map.ofEntries(entry("getDescription", "Orientação artigo sobre qualidade da água"), 
-											entry("getActive", "true"), 
-											entry("getStart_year", "2023"), 
-											entry("getConclusion_year", "2024"),
-											entry("getProfessors_collaborators_fk", "0")));
-			
-		aps.add("publication", Map.ofEntries(entry("getTitle", "Publicação do artigo sobre PLE"), 
-											entry("getConference", "Conferencia Internacional"), 
-											entry("getYear", "2023"), 
-											entry("getProject", "0"),
-											entry("getAuthors_collaborators_fk", "0 2")));
-									
-
-		aps.add("publication", Map.ofEntries(entry("getTitle", "Publicação do artigo sobre qualidade da água"),
-											entry("getConference", "Conferencia Nacional"), 
-											entry("getYear", "2023"), 
-											entry("getProject", "1"),
-											entry("getAuthors_collaborators_fk", "1 4")));
-	}
-	
 	public void start() {
 		try {
 			reader = new BufferedReader(new InputStreamReader(System.in));
@@ -205,11 +135,13 @@ public class Menu {
 			intro = true;
 			text_cmd.opt_selected(panel, text_cmd.getHistoryInput(0));
 			panel = "manage_list";
+			text_cmd.clear_text();
 			break;
 		case 1:
 			intro = true;
 			text_cmd.opt_selected(panel, text_cmd.getHistoryInput(0));
 			panel = "update_project_home";
+			text_cmd.clear_text();
 			break;
 		case 2:
 			intro = false;
@@ -242,8 +174,10 @@ public class Menu {
 			text_cmd._n(2);
 			break;
 		case 5:
+			text_cmd.clear_text();
 			intro = true;
 			panel = "home";
+			text_cmd.clear_text();
 			break;
 		case 6:
 			panel = "0";
@@ -253,11 +187,12 @@ public class Menu {
 			intro = true;
 			model = text_cmd.getOpt(panel, text_cmd.getHistoryInput(0));
 			panel = "manage_opt_home";
+			text_cmd.clear_text();
 		}
 	}
 	
 	private void panel_manage_opt_home() throws IOException {
-		if (intro) {					
+		if (intro) {				
 			System.out.println(model);
 			text_cmd.text(panel);
 			text_cmd.opt(panel);	
@@ -295,8 +230,8 @@ public class Menu {
 				
 
 				if (namefields.contains("fk")) {
-
 					if (aps.get_size(Util.fk_name(namefields, true))>0) {
+						//System.out.println(Util.fk_name(namefields, true));
 						System.out.println("\n"+Util.StringRemoveGet_(namefields)+
 								"\nDigite o Id(s) que deseja associar a este modelo.");
 						
@@ -307,8 +242,7 @@ public class Menu {
 						fields_and_values.put(namefields, cmd);
 					
 					} else {
-						System.out.println("\n"+Util.StringRemoveGet_(namefields)+
-								"\nNão existe nenhum valor relacionado a esse objeto no banco de dados.");	
+						fields_and_values.put(namefields, "0");
 						text_cmd._n(1);
 					}
 					
@@ -343,12 +277,14 @@ public class Menu {
 			}
 			break;
 		case 2:
+			text_cmd.clear_text();
 			intro = true;
 			panel = "manage_opt_home";
 			text_cmd.text("manage_opt_search_result");		
 			aps.show_all(model,8, false);
 			break;
 		case 3:
+			text_cmd.clear_text();
 			intro = true;
 			panel = "manage_list";
 			break;
@@ -466,6 +402,7 @@ public class Menu {
 					}
 					
 				case 3:
+					text_cmd.clear_text();
 					intro = true;
 					panel = "home";
 					text_cmd._n(2);

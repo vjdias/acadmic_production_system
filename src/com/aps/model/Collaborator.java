@@ -8,11 +8,11 @@ public class Collaborator implements Model {
 	private String email;
 	private String academic_degree;
 	private ArrayList<Integer> history_project_participation_fk;
-	private ArrayList<Integer> history_project_production_fk;
+	private ArrayList<Integer> history_project_publication_fk;
 
 	public Collaborator() {
 		history_project_participation_fk = new ArrayList<Integer>();
-		history_project_production_fk = new ArrayList<Integer>();
+		history_project_publication_fk = new ArrayList<Integer>();
 	}
 	
 	public Collaborator(String name, String email, String academic_degree) {
@@ -56,10 +56,10 @@ public class Collaborator implements Model {
 	public void setHistory_project_participation_fk(ArrayList<Integer> history_project_participation_fk) {
 		this.history_project_participation_fk = history_project_participation_fk;
 	}
-	public ArrayList<Integer> getHistory_project_production_fk() {
-		return history_project_production_fk;
+	public ArrayList<Integer> getHistory_project_publication_fk() {
+		return history_project_publication_fk;
 	}
-	public void setHistory_project_production_fk(ArrayList<Integer> history_project_production_fk) {
-		this.history_project_production_fk = history_project_production_fk;
+	public void setHistory_project_publication_fk(ArrayList<Integer> history_project_production_fk) {
+		this.history_project_publication_fk = history_project_production_fk;
 	}
 }

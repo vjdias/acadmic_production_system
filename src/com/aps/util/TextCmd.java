@@ -1,5 +1,6 @@
 package com.aps.util;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -109,11 +110,9 @@ public class TextCmd {
 		return -1;
 	}
 
-	
 	public void addOpt(String name, String opt) {
 		all_texts.get(name).opt.add(opt);
 	}
-
 
 	public Map<String, TextCmd> getAll_texts() {
 		return all_texts;
@@ -131,6 +130,16 @@ public class TextCmd {
 		this.last_name = last_name;
 	}
 	
-	
-
+	public void clear_text() {			
+		try {
+			if (System.getProperty("os.name").contains("Windows"))
+				new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
+			else {
+				Runtime.getRuntime().exec("clear");
+				System.out.print("\033[H\033[2J");
+			}
+		} catch (InterruptedException | IOException e) {
+			e.printStackTrace();
+		}
+	}
 }

@@ -1,5 +1,7 @@
 package com.aps.controller;
 
+import static java.util.Map.entry;
+
 import java.util.ArrayList;
 import java.util.Map;
 
@@ -106,19 +108,19 @@ public class APS {
 
 
 	public int get_size(String ST) {
-		if (ST.toLowerCase().equals("collaborator"))
+		if (ST.toLowerCase().contains("collaborator"))
 			return manageCollaborator.get_size();
 		
-		else if (ST.toLowerCase().equals("orientation"))
+		else if (ST.toLowerCase().contains("orientation"))
 			return manageOrientation.get_size();
 		
-		else if (ST.toLowerCase().equals("participation"))
+		else if (ST.toLowerCase().contains("participation"))
 			return manageParticipation.get_size();
 		
-		else if (ST.toLowerCase().equals("project"))
+		else if (ST.toLowerCase().contains("project"))
 			return manageProject.get_size();
 		
-		else if (ST.toLowerCase().equals("publication"))
+		else if (ST.toLowerCase().contains("publication"))
 			return managePublication.get_size();
 		return 0;
 	}
@@ -189,5 +191,76 @@ public class APS {
 	public String academicReport(Boolean show) {
 		return manageProject.academicReport(show);
 	}
-	
+
+	public void test() {
+		add("collaborator", Map.ofEntries(entry("getName", "Maria"), 
+											  entry("getEmail", "ma@com"), 
+											  entry("getAcademic_degree", "Professor"), 
+											  entry("getHistory_project_participation_fk", "0")));
+		
+		add("collaborator", Map.ofEntries(entry("getName", "João"), 
+											  entry("getEmail", "jo@com"), 
+											  entry("getAcademic_degree", "Professor"), 
+											  entry("getHistory_project_participation_fk", "1")));
+		
+		add("collaborator", Map.ofEntries(entry("getName", "Camila"), 
+											  entry("getEmail", "ma@com"), 
+											  entry("getAcademic_degree", "University student"), 
+											  entry("getHistory_project_participation_fk", "0")));
+		
+		add("collaborator", Map.ofEntries(entry("getName", "Valdir"), 
+											  entry("getEmail", "va@com"), 
+											  entry("getAcademic_degree", "University student"), 
+											  entry("getHistory_project_participation_fk", "")));
+		
+		add("collaborator", Map.ofEntries(entry("getName", "José"), 
+											  entry("getEmail", "jos@com"), 
+											  entry("getAcademic_degree", "University student"), 
+											  entry("getHistory_project_participation_fk", "1")));
+		
+		add("project", Map.ofEntries(entry("getTitle", "Teste de qualidade da água."), 
+										 entry("getFinancing_company", "Coca-Cola"), 
+										 entry("getFinancing_amount", "8000"), 
+										 entry("getDescription", "Teste de qualidade da água fornecida para faculdade"), 
+										 entry("getStart_year", "2021"),
+										 entry("getConclusion_year", "2022"),
+										 entry("getStatus", "in preparation"), 
+										 entry("getCollaborators_fk", "0,2")));
+
+		add("project", Map.ofEntries(entry("getTitle", "Estudo dos efeitos da PLE nos universitarios."), 
+										 entry("getFinancing_company", "Ufal"), 
+										 entry("getFinancing_amount", "0"), 
+										 entry("getDescription", "Analise da qualidade do aprendizado dos universitarios."), 
+										 entry("getStart_year", "2023"),
+										 entry("getConclusion_year", "2025"), 
+										 entry("getStatus", "in preparation"), 
+										 entry("getCollaborators_fk", "1,4")));
+		
+
+		add("orientation", Map.ofEntries(entry("getDescription", "Orientação artigo sobre PLE"), 
+											entry("getActive", "true"), 
+											entry("getStart_year", "2023"), 
+											entry("getConclusion_year", "2024"), 
+											entry("getProfessors_collaborators_fk", "1")));
+
+		add("orientation", Map.ofEntries(entry("getDescription", "Orientação artigo sobre qualidade da água"), 
+											entry("getActive", "true"), 
+											entry("getStart_year", "2023"), 
+											entry("getConclusion_year", "2024"),
+											entry("getProfessors_collaborators_fk", "0")));
+			
+		add("publication", Map.ofEntries(entry("getTitle", "Publicação do artigo sobre PLE"), 
+											entry("getConference", "Conferencia Internacional"), 
+											entry("getYear", "2023"), 
+											entry("getProject_fk", "0"),
+											entry("getAuthors_collaborators_fk", "0 2")));
+									
+
+		add("publication", Map.ofEntries(entry("getTitle", "Publicação do artigo sobre qualidade da água"),
+											entry("getConference", "Conferencia Nacional"), 
+											entry("getYear", "2023"), 
+											entry("getProject_fk", "1"),
+											entry("getAuthors_collaborators_fk", "1 4")));
+		
+	}
 }

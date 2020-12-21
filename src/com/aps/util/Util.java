@@ -102,14 +102,21 @@ public class Util {
 	}
 	
 	public static String fk_name(String fk, boolean singular) {
-		String[] _names = fk.split("_");
+		String[] _names = fk.split("_");	
 		String name = StringRemoveGet_(_names[_names.length - 2]);
-		name = name.substring(0, name.length()-1);		
+		
+		if (name.substring( name.length()-1, name.length()).contains("s"))
+			name = name.substring(0, name.length()-1);		
 		
 		if (singular && name.substring(name.length() - 3, name.length() - 2).equals("s")) {
 			name = name.substring(0, name.length() - 3);
 			return name;
 		}
+
 		return name;
 	}
+
+	public static boolean isEclipse() {
+	    return System.getenv("in_production") == null;
+	}	
 }
