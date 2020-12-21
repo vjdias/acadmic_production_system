@@ -54,3 +54,11 @@ Digite o Id(s) que deseja associar a este modelo.
 
 > 0 2
 ```
+
+  Diagrams   
+  Model 
+![Model](https://github.com/vjdias/acadmic_production_system/blob/master/diagram/model.PNG)
+  Controller
+![Model](https://github.com/vjdias/acadmic_production_system/blob/master/diagram/controller.PNG)
+  View and Utils
+![Model](https://github.com/vjdias/acadmic_production_system/blob/master/diagram/view_util.PNG)
