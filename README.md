@@ -59,4 +59,4 @@ Digite o Id(s) que deseja associar a este modelo.
 Model
 
 
-! [Imagem de Yaktocat] (https://octodex.github.com/images/yaktocat.png)
+![Image of Yaktocat](https://octodex.github.com/images/yaktocat.png)
