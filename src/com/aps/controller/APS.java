@@ -21,7 +21,6 @@ public class APS {
 	private String[] models = {"Collaborator", "Orientation", "Participation", "Project", "Publication"};
 		
 	public APS() {
-
 		manageCollaborator = new Manage<Collaborator>();
 		manageOrientation = new ManageOrientation(manageCollaborator);
 		manageParticipation = new Manage<Participation>();
@@ -30,60 +29,59 @@ public class APS {
 
 	}
 	
-	public Boolean add(String ST, Map<String, String> fields_and_values) {
+	public int invoke_and_add(String ST, Map<String, String> fields_and_values) {
 		try {
 			if (ST.toLowerCase().equals("collaborator")) {
 				Collaborator coll = new Collaborator();
-				return manageCollaborator.add(fields_and_values, coll);
+				return manageCollaborator.invoke_and_add(fields_and_values, coll);
 	
 			} else if (ST.toLowerCase().equals("orientation")) {
 				Orientation orien = new Orientation();
-				return manageOrientation.add(fields_and_values, orien);
+				return manageOrientation.invoke_and_add(fields_and_values, orien);
 			
 			} else if (ST.toLowerCase().equals("participation")) {
 				Participation part = new Participation();
-				return manageParticipation.add(fields_and_values, part);
+				return manageParticipation.invoke_and_add(fields_and_values, part);
 			
 			} else if (ST.toLowerCase().equals("project")) {
 				Project proj = new Project();
-				return manageProject.add(fields_and_values, proj);
+				return manageProject.invoke_and_add(fields_and_values, proj);
 			
 			} else if (ST.toLowerCase().equals("publication")) {
 				Publication pub = new Publication();
-				return managePublication.add(fields_and_values, pub);
+				return managePublication.invoke_and_add(fields_and_values, pub);
 			}
 			
 		} catch (ClassCastException c) {
 			System.out.println("Erro de cast ao ler o objeto: "+ST);
 		}
-	
-		return false;
+		return -1;
 	}
 	
 	public Boolean add_publication_project(int id_project, int publication_fk) {
 		return manageProject.add_publication_project(id_project, publication_fk);
 	}
 	
-	public ArrayList<String> listFields(String ST, Boolean show) {
+	public ArrayList<String> listFields(String ST, Boolean show, Boolean no_id) {
 		if (ST.toLowerCase().equals("collaborator")) {
 			Collaborator coll = new Collaborator();
-			return manageCollaborator.listFields(show, coll);
+			return manageCollaborator.listFields(show, no_id, coll);
 		}
 		else if (ST.toLowerCase().equals("orientation")) {
 			Orientation orien = new Orientation();
-			return manageOrientation.listFields(show, orien);
+			return manageOrientation.listFields(show, no_id, orien);
 		}
 		else if (ST.toLowerCase().equals("participation")) {
 			Participation part = new Participation();
-			return manageParticipation.listFields(show, part);
+			return manageParticipation.listFields(show, no_id, part);
 		}
 		else if (ST.toLowerCase().equals("project"))  {
 			Project proj = new Project();
-			return manageProject.listFields(show, proj);
+			return manageProject.listFields(show, no_id, proj);
 		}
 		else if (ST.toLowerCase().equals("publication")) {
 			Publication pub = new Publication();
-			return managePublication.listFields(show, pub);
+			return managePublication.listFields(show, no_id, pub);
 		}
 		return null;
 	}
@@ -106,6 +104,25 @@ public class APS {
 		return "";
 	}
 
+	public Boolean set_value(String ST, String search_field, String search_value, 
+			String field, String new_value) {
+		if (ST.toLowerCase().equals("collaborator"))
+			return manageCollaborator.set_value(search_field, search_value, field, new_value);
+		
+		else if (ST.toLowerCase().equals("orientation"))
+			return manageOrientation.set_value(search_field, search_value, field, new_value);
+		
+		else if (ST.toLowerCase().equals("participation"))
+			return manageParticipation.set_value(search_field, search_value, field, new_value);	
+		
+		else if (ST.toLowerCase().equals("project"))
+			return manageProject.set_value(search_field, search_value, field, new_value);
+		
+		else if (ST.toLowerCase().equals("publication"))
+			return managePublication.set_value(search_field, search_value, field, new_value);
+		
+		return false;
+	}
 
 	public int get_size(String ST) {
 		if (ST.toLowerCase().contains("collaborator"))
@@ -126,27 +143,29 @@ public class APS {
 	}
 
 	
-	public void search(String ST, String field, String data, int spc_field, Boolean sort_by) {
+	public int search(String ST, String field, String data, int spc_field, Boolean sort_by) {
 		if (ST.toLowerCase().equals("collaborator")) {
 			Collaborator coll = new Collaborator();
-			manageCollaborator.search(field, data, spc_field, coll, sort_by);
+			return manageCollaborator.search(field, data, spc_field, coll, sort_by);
 		}
 		else if (ST.toLowerCase().equals("orientation")) {
 			Orientation orien = new Orientation();
-			manageOrientation.search(field, data, spc_field, orien, sort_by);
+			return manageOrientation.search(field, data, spc_field, orien, sort_by);
 		}
 		else if (ST.toLowerCase().equals("participation")) {
 			Participation part = new Participation();
-			manageParticipation.search(field, data, spc_field, part, sort_by);
+			return manageParticipation.search(field, data, spc_field, part, sort_by);
 		}
 		else if (ST.toLowerCase().equals("project")) {
 			Project proj = new Project();
-			manageProject.search(field, data, spc_field, proj, sort_by);
+			return manageProject.search(field, data, spc_field, proj, sort_by);
 		}
 		else if (ST.toLowerCase().equals("publication")) {
 			Publication pub = new Publication();
-			managePublication.search(field, data, spc_field, pub, sort_by);
+			return managePublication.search(field, data, spc_field, pub, sort_by);
 		}
+	
+		return -1;
 	}
 	
 	public void show_all(String ST, int spc_field, Boolean sort_by) {
@@ -193,32 +212,32 @@ public class APS {
 	}
 
 	public void test() {
-		add("collaborator", Map.ofEntries(entry("getName", "Maria"), 
+		invoke_and_add("collaborator", Map.ofEntries(entry("getName", "Maria"), 
 											  entry("getEmail", "ma@com"), 
 											  entry("getAcademic_degree", "Professor"), 
 											  entry("getHistory_project_participation_fk", "0")));
 		
-		add("collaborator", Map.ofEntries(entry("getName", "João"), 
+		invoke_and_add("collaborator", Map.ofEntries(entry("getName", "João"), 
 											  entry("getEmail", "jo@com"), 
 											  entry("getAcademic_degree", "Professor"), 
 											  entry("getHistory_project_participation_fk", "1")));
 		
-		add("collaborator", Map.ofEntries(entry("getName", "Camila"), 
+		invoke_and_add("collaborator", Map.ofEntries(entry("getName", "Camila"), 
 											  entry("getEmail", "ma@com"), 
 											  entry("getAcademic_degree", "University student"), 
 											  entry("getHistory_project_participation_fk", "0")));
 		
-		add("collaborator", Map.ofEntries(entry("getName", "Valdir"), 
+		invoke_and_add("collaborator", Map.ofEntries(entry("getName", "Valdir"), 
 											  entry("getEmail", "va@com"), 
 											  entry("getAcademic_degree", "University student"), 
 											  entry("getHistory_project_participation_fk", "")));
 		
-		add("collaborator", Map.ofEntries(entry("getName", "José"), 
+		invoke_and_add("collaborator", Map.ofEntries(entry("getName", "José"), 
 											  entry("getEmail", "jos@com"), 
 											  entry("getAcademic_degree", "University student"), 
 											  entry("getHistory_project_participation_fk", "1")));
 		
-		add("project", Map.ofEntries(entry("getTitle", "Teste de qualidade da água."), 
+		invoke_and_add("project", Map.ofEntries(entry("getTitle", "Teste de qualidade da água."), 
 										 entry("getFinancing_company", "Coca-Cola"), 
 										 entry("getFinancing_amount", "8000"), 
 										 entry("getDescription", "Teste de qualidade da água fornecida para faculdade"), 
@@ -227,7 +246,7 @@ public class APS {
 										 entry("getStatus", "in preparation"), 
 										 entry("getCollaborators_fk", "0,2")));
 
-		add("project", Map.ofEntries(entry("getTitle", "Estudo dos efeitos da PLE nos universitarios."), 
+		invoke_and_add("project", Map.ofEntries(entry("getTitle", "Estudo dos efeitos da PLE nos universitarios."), 
 										 entry("getFinancing_company", "Ufal"), 
 										 entry("getFinancing_amount", "0"), 
 										 entry("getDescription", "Analise da qualidade do aprendizado dos universitarios."), 
@@ -237,26 +256,26 @@ public class APS {
 										 entry("getCollaborators_fk", "1,4")));
 		
 
-		add("orientation", Map.ofEntries(entry("getDescription", "Orientação artigo sobre PLE"), 
+		invoke_and_add("orientation", Map.ofEntries(entry("getDescription", "Orientação artigo sobre PLE"), 
 											entry("getActive", "true"), 
 											entry("getStart_year", "2023"), 
 											entry("getConclusion_year", "2024"), 
 											entry("getProfessors_collaborators_fk", "1")));
 
-		add("orientation", Map.ofEntries(entry("getDescription", "Orientação artigo sobre qualidade da água"), 
+		invoke_and_add("orientation", Map.ofEntries(entry("getDescription", "Orientação artigo sobre qualidade da água"), 
 											entry("getActive", "true"), 
 											entry("getStart_year", "2023"), 
 											entry("getConclusion_year", "2024"),
 											entry("getProfessors_collaborators_fk", "0")));
 			
-		add("publication", Map.ofEntries(entry("getTitle", "Publicação do artigo sobre PLE"), 
+		invoke_and_add("publication", Map.ofEntries(entry("getTitle", "Publicação do artigo sobre PLE"), 
 											entry("getConference", "Conferencia Internacional"), 
 											entry("getYear", "2023"), 
 											entry("getProject_fk", "0"),
 											entry("getAuthors_collaborators_fk", "0 2")));
 									
 
-		add("publication", Map.ofEntries(entry("getTitle", "Publicação do artigo sobre qualidade da água"),
+		invoke_and_add("publication", Map.ofEntries(entry("getTitle", "Publicação do artigo sobre qualidade da água"),
 											entry("getConference", "Conferencia Nacional"), 
 											entry("getYear", "2023"), 
 											entry("getProject_fk", "1"),

@@ -3,7 +3,7 @@ package com.aps.model;
 import java.util.ArrayList;
 
 public class Orientation implements Model {
-	private int id;
+	private Integer id;
 	private ArrayList<Integer> professors_collaborators_fk;
 	private String description;
 	private Boolean active;
@@ -32,10 +32,10 @@ public class Orientation implements Model {
 		return id;
 	}
 	
-	public int getId() {
-		return id;
+	public Integer getId() {
+		return this.id;
 	}
-	public void setId(int id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 

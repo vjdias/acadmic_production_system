@@ -35,6 +35,7 @@ public class Menu {
 		
 		text_cmd = new TextCmd();
 		text_cmd.clear_text();
+		text_cmd.add("write", ">");
 		text_cmd.add("welcome", "Academic Productivity System\nSeja bem vindo!");
 		text_cmd.add("home","Selecione uma das seguintes opções para prosseguir:", new ArrayList<String>(Arrays.asList(
 				"Gerenciar dados",
@@ -48,39 +49,51 @@ public class Menu {
 		text_cmd.add("manage_opt_home","Selecione uma das seguintes opções para prosseguir:", new ArrayList<String>(Arrays.asList(
 				"Buscar",
 				"Adicionar",
+				"Atualizar",
 				"Listar Todos",
 				"Voltar",
 				"Sair")));
 		
-		text_cmd.add("manage_opt_search","Digite campo e valor para fazer a busca: (Exp: name Valdir)");
-		text_cmd.add("manage_opt_search_result","Resultado da busca:");
-		text_cmd.add("manage_opt_add","Digite os valores correspondentes aos seguintes campos:");
+		text_cmd.add("manage_opt_error_exceeds_size","Por favor escolha uma opção entre 0 e ");
+		text_cmd.add("manage_opt_error_!int", "Por favor digite valor(es) inteiro(s) no campo ");
 		text_cmd.add("manage_opt_error","Algum erro ocorreu durante o processo, deseja tentar novamente?", new ArrayList<String>(Arrays.asList(
 				"Sim",
 				"Não",
 				"Sair")));
 		
+		text_cmd.add("manage_opt_search","Digite campo e valor para fazer a busca: (Exp: name Valdir)");
+		text_cmd.add("manage_opt_search_error","Por favor digite a busca como este exemplo: 'Campo Valor'");
+		text_cmd.add("manage_opt_search_result","Resultado da busca:");
+		
+		text_cmd.add("manage_opt_add","Digite os valores correspondentes aos seguintes campos:");	
+		text_cmd.add("manage_opt_add_fk_opt", "Deseja adicionar este modelo a dados existentes ou a um novo?", new ArrayList<String>(Arrays.asList(
+				"Criar um novo modelo para a associação", 
+				"Adicionar a um modelo existente", 
+				"Não adicionar")));
+		text_cmd.add("manage_opt_add_sucess", " adicionado com sucesso!");
+		text_cmd.add("manage_opt_add_association", "\nDigite o Id(s) que deseja associar a este modelo.");
+		
+		text_cmd.add("manage_opt_update_sucess", " atualizado com sucesso!");
+		text_cmd.add("manage_opt_update_opt_model", "\nBusque o(s) modelo(s) que deseja modificar.");
+		text_cmd.add("manage_opt_update_opt_model_id", "\nDigite o id do modelo que deseja modificar.");
+		text_cmd.add("manage_opt_update_opt_model_fields", "\nOs seguintes campos estão disponíveis para alterações,"
+				+ " escolha o seu novo valor digitando em após o nome do campo.");
+
 		text_cmd.add("update_project_home", "Informe qual id do projeto você deseja atualizar:");
-	
 		text_cmd.add("update_project_opt", "Selecione uma das seguintes opções para prosseguir", new ArrayList<String>(Arrays.asList(
 				"Adicionar colaborador ao projeto",
 				"Adicionar publicação ao projeto",
 				"Atualizar estado do projeto",
 				"Voltar",
 				"Sair")));
-
 		text_cmd.add("update_project_opt_0", "Escolha e digite os Id(s) correspondente(s) aos colaboradore(s) que você deseja adicionar ao projeto.");
 		text_cmd.add("update_project_opt_0_sucess", "Colaborador(s) adicionado(s) ao projeto com sucesso!");
-
 		text_cmd.add("update_project_opt_1", "Escolha e digite os Id(s) correspondente(s) as publicações (s) que você deseja adicionar ao projeto.");
 		text_cmd.add("update_project_opt_1_sucess", "Publicações(s) adicionada(s) ao projeto com sucesso!");
-
 		text_cmd.add("update_project_opt_3", "Deseja alterar o status do projeto?", new ArrayList<String>(Arrays.asList(
 				"Sim",
 				"Não")));
-
 		text_cmd.add("update_project_opt_3_sucess", "O estatus do projeto foi mudado com sucesso para: ");
-		
 		text_cmd.add("0_or_1", "", new ArrayList<String>(Arrays.asList(
 				"Sim",
 				"Não")));
@@ -93,7 +106,7 @@ public class Menu {
 	public void start() {
 		try {
 			reader = new BufferedReader(new InputStreamReader(System.in));
-			text_cmd.textln("welcome",1);			
+			text_cmd.textln("welcome", 1);			
 			
 			while (!panel.equals("0")) {
 								
@@ -210,85 +223,77 @@ public class Menu {
 		case 0:
 			intro = true;
 			System.out.println(model);
-			if (aps.listFields(model, true) != null) {						
+			if (aps.listFields(model, true, false) != null) {						
 				text_cmd.text("manage_opt_search");
 				cmd = reader.readLine();
 				text_cmd._n(1);
-				text_cmd.text("manage_opt_search_result");		
-				aps.search(model, cmd.split(" ")[0], cmd.split(" ")[1], 8, false);
+				text_cmd.text("manage_opt_search_result");
+				if (Util.verify_separator(cmd).equals(" ")) {
+					aps.search(model, cmd.split(" ")[0], cmd.split(" ")[1], 8, false);
+				} else {
+					text_cmd.text("manage_opt_search_error");
+				}
 			}
 			text_cmd.HistoryInput_remove_last();
 			text_cmd._n(1);
 			break;
-
 		case 1:
 			intro = true;
-			text_cmd.text("manage_opt_add");
-			
-			Map<String, String> fields_and_values = new HashMap<String, String>();
-			for (String namefields: aps.listFields(model, false)) {
-				
-
-				if (namefields.contains("fk")) {
-					if (aps.get_size(Util.fk_name(namefields, true))>0) {
-						//System.out.println(Util.fk_name(namefields, true));
-						System.out.println("\n"+Util.StringRemoveGet_(namefields)+
-								"\nDigite o Id(s) que deseja associar a este modelo.");
-						
-						aps.show_all(Util.fk_name(namefields, true), 8, false);
-						System.out.print(">");
-						
-						cmd = reader.readLine();
-						fields_and_values.put(namefields, cmd);
-					
-					} else {
-						fields_and_values.put(namefields, "0");
-						text_cmd._n(1);
-					}
-					
-				} else if (!namefields.toLowerCase().contains("id"))  {	
-					System.out.print("\n"+Util.StringRemoveGet_(namefields)+":\n>");
-					cmd = reader.readLine();
-					fields_and_values.put(namefields, cmd);
-				}
-			}
-			if (!aps.add(model, fields_and_values)) {
-				text_cmd.text("manage_opt_error");
-				text_cmd.opt("0_or_1");
-				cmd = reader.readLine();				
-				switch (text_cmd.selected("0_or_1", cmd)) {
-				case -1:
-					intro = false;
-					text_cmd.opt("0_or_1");	
-					cmd = reader.readLine();
-					text_cmd._n(2);
-					break;
-				case 0:
-					intro = true;
-					panel = "manage_list";
-					break;
-				case 1:
-					panel = "0";
-					text_cmd.text("goodbye");
-					break;
-				}
-			} else {
-				System.out.println(model+" adicionado com sucesso!\n\n");							
-			}
+			panel_manage_opt_add(model);
 			break;
 		case 2:
+			text_cmd.text("manage_opt_update_opt_model");
+			aps.show_all(model,8, false);
+			text_cmd.text("write");
+			String cmd1 = reader.readLine(); 
+			if (Util.verify_separator(cmd1).equals(" ")) {
+				
+				if (aps.search(model, cmd1.split(" ")[0], cmd1.split(" ")[1], 8, false) == 1) {
+					
+					text_cmd.text("manage_opt_update_opt_model_fields");
+
+					aps.listFields(model, true, true);
+					text_cmd.textln("write",0);
+					cmd = reader.readLine();
+					
+					if (Util.verify_separator(cmd).equals(" ")) {
+						if (aps.set_value(model, cmd1.split(" ")[0], cmd1.split(" ")[1]					
+								,cmd.split(" ")[0], cmd.split(" ")[1]))
+							text_cmd.text("manage_opt_update_sucess");
+					}
+					
+				} else {
+					text_cmd.text("manage_opt_update_opt_model_id");
+					cmd = reader.readLine(); 
+					
+					if (Util.verify_separator(cmd).equals(" ")) {
+						if (aps.set_value(model, cmd1.split(" ")[0], cmd1.split(" ")[1]					
+								,cmd.split(" ")[0], cmd.split(" ")[1]))
+							text_cmd.text("manage_opt_update_sucess");
+
+					} else {
+						text_cmd.text("manage_opt_search_error");
+					}					
+				}
+			
+			} else {
+				text_cmd.text("manage_opt_search_error");
+			}
+			
+			break;
+		case 3:
 			text_cmd.clear_text();
 			intro = true;
 			panel = "manage_opt_home";
 			text_cmd.text("manage_opt_search_result");		
 			aps.show_all(model,8, false);
 			break;
-		case 3:
+		case 4:
 			text_cmd.clear_text();
 			intro = true;
 			panel = "manage_list";
 			break;
-		case 4:
+		case 5:
 			panel = "0";
 			text_cmd.text("goodbye");
 			break;
@@ -300,7 +305,9 @@ public class Menu {
 		if (aps.get_size("Project") > 0) {
 			text_cmd.text(panel);
 			aps.show_all("Project",8, true);
-			System.out.print(">Id:");
+//			System.out.print(">Id:");
+			
+			text_cmd.textln("write","Id:",true,0);
 			cmd = reader.readLine();
 			text_cmd._n(1);
 	
@@ -420,4 +427,122 @@ public class Menu {
 			intro = true;
 		}
 	}
+	
+	private int panel_manage_opt_add(String model) throws IOException {
+		
+		text_cmd.text("manage_opt_add");
+		Boolean error = true;
+		Map<String, String> fields_and_values = new HashMap<String, String>();
+
+//		Boolean first_fk = false;
+		int id_model = 0;
+		for (String namefields: aps.listFields(model, false, false)) { 
+			error = true;
+			while(error) {
+				try {
+					if (namefields.contains("fk")) {
+						System.out.println(Util.StringRemoveGet_(namefields)+":");
+						if (aps.get_size(Util.fk_name(namefields, true))>0) {
+							panel = "manage_opt_add_fk_opt";
+							text_cmd.text(panel);
+							text_cmd.opt(panel);
+							cmd = reader.readLine();
+							
+							switch (text_cmd.selected(panel, cmd)) {
+							case -1:
+								break;
+							case 0:
+								fields_and_values.put(namefields, String.valueOf(panel_manage_opt_add(Util.fk_name(namefields, true))));
+								break;
+							case 1:
+								
+								String separator = "";
+								text_cmd.text("manage_opt_add_association", Util.StringRemoveGet_(namefields), false);
+								
+								aps.show_all(Util.fk_name(namefields, true), 8, false);
+								
+								text_cmd.textln("write", 0);
+								
+								cmd = reader.readLine();
+								separator = Util.verify_separator(cmd);
+								
+								if (!separator.equals("")) {
+									for (String id: cmd.split(separator)) {
+										if (!aps.get_value(Util.fk_name(namefields, true), Integer.parseInt(id), "Id").equals("-2")) {
+											fields_and_values.put(namefields, cmd);
+											error = false;
+										} else {
+											text_cmd.text("manage_opt_error_exceeds_size", (aps.get_size(namefields)-1));
+										}
+									}
+									
+								} else {
+									if (!aps.get_value(Util.fk_name(namefields, true), Integer.parseInt(cmd), "Id").equals("-2")) {
+										fields_and_values.put(namefields, cmd);
+										error = false;
+									} else {
+										text_cmd.text("manage_opt_error_exceeds_size", (aps.get_size(namefields)-1));
+									}
+								}
+								
+								break;
+							case 2:
+								error = false;
+								break;
+							}
+							
+						} else {
+							//fields_and_values.put(namefields, "0");
+							text_cmd._n(1);
+							error = false;
+
+						}
+//9						first_fk = false;
+						
+					} else if (!namefields.toLowerCase().contains("id"))  {
+						text_cmd.textln("write",Util.StringRemoveGet_(namefields)+":\n",false, 0);
+						cmd = reader.readLine();
+						fields_and_values.put(namefields, cmd);
+						error = false;
+
+					} else {
+						error = false;
+					}
+					
+				} catch (NumberFormatException e) {
+					text_cmd.text("manage_opt_error_!int",Util.StringRemoveGet_(namefields), true);
+				}
+			}
+			text_cmd._n(1);
+		}
+		id_model = aps.invoke_and_add(model, fields_and_values);
+		if (id_model >= 0) {
+			text_cmd.text("manage_opt_error");
+			text_cmd.opt("0_or_1");
+			cmd = reader.readLine();				
+			switch (text_cmd.selected("0_or_1", cmd)) {
+			case -1:
+				intro = false;
+				text_cmd.opt("0_or_1");	
+				cmd = reader.readLine();
+				text_cmd._n(2);
+				break;
+			case 0:
+				intro = true;
+				panel = "manage_list";
+				break;
+			case 1:
+				panel = "0";
+				text_cmd.text("goodbye");
+				break;
+			}
+		} else {
+			text_cmd.clear_text();
+			text_cmd.text("manage_opt_add_sucess",model, false);
+			panel = "manage_opt_home";
+			return 1;
+		}
+		return id_model;
+	}
+	
 }

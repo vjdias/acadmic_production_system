@@ -119,4 +119,14 @@ public class Util {
 	public static boolean isEclipse() {
 	    return System.getenv("in_production") == null;
 	}	
+	
+	public static String verify_separator(String text) {
+		if (text.contains(",")) {
+			return ",";
+		} else if (text.contains(" ")) {
+			return " ";
+		} 
+		return "";
+	}
+	
 }

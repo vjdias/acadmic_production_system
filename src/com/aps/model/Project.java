@@ -3,7 +3,7 @@ package com.aps.model;
 import java.util.ArrayList;
 
 public class Project implements Model {
-	private int id;
+	private Integer id;
 	private String title;
 	private int start_year;
 	private int conclusion_year;
@@ -26,11 +26,10 @@ public class Project implements Model {
 		return "Title: "+getTitle()+", Status: "+getStatus();
 	}
 	
-	public int getId() {
-		return id;
+	public Integer getId() {
+		return this.id;
 	}
-
-	public void setId(int id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 	

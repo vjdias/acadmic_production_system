@@ -40,9 +40,25 @@ public class TextCmd {
 		all_texts.put(name, new TextCmd(name, text));
 	}
 	
+	public void textln(String name, String value, Boolean pos, int bn) {
+		if (pos) {
+			if (bn == 0) {
+				System.out.print(this.all_texts.get(name).text+value);
+			} else {
+				System.out.print(this.all_texts.get(name).text+value+"\n".repeat(bn));
+			}
+		} else {
+			if (bn == 0) {
+				System.out.print(value+this.all_texts.get(name).text);	
+			} else {				
+				System.out.print(value+this.all_texts.get(name).text+"\n".repeat(bn));	
+			}
+		}
+		
+	}
+
 	public void textln(String name, int bn) {
-		System.out.println(this.all_texts.get(name).text+"\n".repeat(bn));
-		last_name = name;
+		System.out.print(this.all_texts.get(name).text+"\n".repeat(bn));
 	}
 
 	public void text(String name) {
@@ -50,6 +66,21 @@ public class TextCmd {
 		last_name = name;
 	}
 
+	public void text(String name, int value) {
+		System.out.println(this.all_texts.get(name).text+value);		
+		last_name = name;
+	}
+	
+	public void text(String name, String value, Boolean pos) {
+		if (pos) {
+			System.out.println(this.all_texts.get(name).text+value);
+		} else {
+			System.out.println(value+this.all_texts.get(name).text);			
+		}
+		
+		last_name = name;
+	}
+	
 	public void opt(String name) {
 		String all_opt = "";
 		for (int i = 0; i < all_texts.get(name).opt.size(); i++) {
@@ -136,7 +167,7 @@ public class TextCmd {
 				new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
 			else {
 				Runtime.getRuntime().exec("clear");
-				System.out.print("\033[H\033[2J");
+				System.out.println("\033[H\033[2J");
 			}
 		} catch (InterruptedException | IOException e) {
 			e.printStackTrace();

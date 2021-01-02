@@ -3,7 +3,7 @@ package com.aps.model;
 import java.util.ArrayList;
 
 public class Collaborator implements Model {
-	private int id;
+	private Integer id;
 	private String name;
 	private String email;
 	private String academic_degree;
@@ -25,10 +25,10 @@ public class Collaborator implements Model {
 		return "Name: "+getName()+", Degree: "+getAcademic_degree();
 	}
 	
-	public int getId() {
+	public Integer getId() {
 		return this.id;
 	}
-	public void setId(int id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 

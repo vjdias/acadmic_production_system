@@ -1,6 +1,6 @@
 package com.aps.model;
 
 public interface Model {
-	public int getId();
-	public void setId(int id);
+	public Integer getId();
+	public void setId(Integer id);
 }

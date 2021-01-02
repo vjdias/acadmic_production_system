@@ -1,16 +1,16 @@
 package com.aps.model;
 
 public class User implements Model {
-	private int id;
+	private Integer id;
 	private String name;
 	private String email;
 	private String permission;
 	
 	
-	public int getId() {
-		return id;
+	public Integer getId() {
+		return this.id;
 	}
-	public void setId(int id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 	public String getName() {

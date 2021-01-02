@@ -3,7 +3,7 @@ package com.aps.model;
 import java.util.ArrayList;
 
 public class Publication implements Model{
-	private int id;
+	private Integer id;
 	private String title;
 	private ArrayList<Integer> authors_collaborators_fk;
 	private String conference;
@@ -22,10 +22,10 @@ public class Publication implements Model{
 		this.project_fk = project_fk;
 	}
 	
-	public int getId() {
-		return id;
+	public Integer getId() {
+		return this.id;
 	}
-	public void setId(int id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 	public String getTitle() {

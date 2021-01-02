@@ -9,10 +9,10 @@ public class Participation implements Model {
 
 	public Participation() {}
 
-	public int getId() {
-		return id;
+	public Integer getId() {
+		return this.id;
 	}
-	public void setId(int id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 	public int getProject_fk() {

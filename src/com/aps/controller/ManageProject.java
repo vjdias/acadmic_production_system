@@ -2,7 +2,6 @@ package com.aps.controller;
 
 import java.util.ArrayList;
 import java.util.Comparator;
-import java.util.Map;
 import java.util.stream.Collectors;
 
 import com.aps.model.Collaborator;
@@ -23,10 +22,9 @@ public class ManageProject extends Manage<Project> {
 		this.ManagePublication = ManagePublication;
 		this.ManageOrientation = ManageOrientation;
 	}
-	
-	public Boolean add(Map<String, String> fields_and_values, Project obj) {
-
-		obj = invoke_model(fields_and_values, obj);	
+		
+	@Override
+	public Boolean add_test(Project obj) {
 		if (obj.getStatus() == null) {	
 			System.out.println("Não é possivel adicionar este projeto a este projeto, falta informar seu status");
 			return false;
@@ -63,8 +61,9 @@ public class ManageProject extends Manage<Project> {
 				}
 			}
 		}
+		
 		if (exist_professor) {
-			return add(obj);
+			return true;
 		} else {
 			System.out.println("Este projeto precisa de no minimo um professor.");			
 		}
@@ -74,6 +73,7 @@ public class ManageProject extends Manage<Project> {
 		}
 		
 		return false;
+		
 	}
 	
 	public Boolean add_collaborator_project(int id_project, int coll_fk) {
